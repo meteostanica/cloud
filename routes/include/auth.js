@@ -15,7 +15,7 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
     const token = cookie.session.value
     const session = await Auth.getSession(token)
 
-    if (session) {
+    if (session?.valid) {
       return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel`)
     }
 
@@ -110,7 +110,7 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
     const token = cookie.session.value
     const session = await Auth.getSession(token)
 
-    if (session) {
+    if (session?.valid) {
       Auth.removeSession(session.id)
       delete cookie.session
     }
