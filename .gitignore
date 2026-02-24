@@ -6,4 +6,7 @@ bun.lock
 .env
 
 # sqlite databases
-data/
+data/**
+
+# keep empty folders
+!**/.gitkeep
