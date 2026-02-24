@@ -1,0 +1,23 @@
+<% layout("/sk/layout", { title: "prihlásenie" }) %>
+
+<h1>prihlásenie</h1>
+<p>zadajte svoj email a kliknite na link, ktorý vám príde.</p>
+
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+
+<% if (typeof errorValue === "string") { %>
+  <p class="error" style="color: red;"><%= errorValue %></p>
+<% } %>
+
+<form action="/auth" method="post">
+    <input type="email" name="email" placeholder="vas@email.sk" required />
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+    <button type="submit">odoslať</button>
+</form>
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

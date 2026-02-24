@@ -1,0 +1,9 @@
+# bun packages
+node_modules
+bun.lock
+
+# secrets
+.env
+
+# sqlite databases
+data/

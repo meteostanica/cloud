@@ -1,0 +1,16 @@
+<% layout("/en/layout") %>
+
+<%~ include("/en/partials/navbar") %>
+
+
+<header>
+    <div>
+        <h1>it looks like this >>>>></h1>
+        <p>the best weather station you have ever seen</p>
+
+        <a href="/en/auth" class="button">login</a>
+    </div>
+    <div>
+        <img alt="a picture of the best weather station" src="https://placehold.net/600x400.png">
+    </div>
+</header>

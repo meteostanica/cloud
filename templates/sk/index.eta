@@ -1,0 +1,16 @@
+<% layout("/sk/layout") %>
+
+<%~ include("/sk/partials/navbar") %>
+
+
+<header>
+    <div>
+        <h1>takto vyzerá >>>>></h1>
+        <p>najlepšia meteostanica akú ste kedy videli</p>
+
+        <a href="/auth" class="button">prihlásenie</a>
+    </div>
+    <div>
+        <img alt="obrázok najlepšej meteostanice" src="https://placehold.net/600x400.png">
+    </div>
+</header>

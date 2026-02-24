@@ -1,0 +1,6 @@
+<% layout("/en/layout", { title: "panel" }) %>
+
+<h1>panel</h1>
+<p><%= it.user.email %> !!</p>
+
+<a href="/en/auth/logout">logout</a>

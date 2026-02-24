@@ -1,0 +1,10 @@
+<p>dobrý deň,</p>
+
+<p>môžete sa prihlásiť nasledujúcim kódom: <strong><%= it.code %></strong></p>
+<p>alebo <a href="<%= it.link %>">kliknite na tento link</a></p>
+
+<p><%= it.link %></p>
+
+<p><small>ak ste tento email nevyžiadali, môžete ho kľudne ignorovať.</small></p>
+
+<p>meteostanica</p>

@@ -1,0 +1,10 @@
+<nav>
+    <h2>meteostanica</h2>
+
+    <ul>
+        <li><a href="#">domov</a></li>
+        <li><a href="#">domov</a></li>
+        <li><a href="/auth" class="button">panel</a></li>
+        <li><a href="/en">🦅🦅🦅🇺🇸🇺🇸🇺🇸</a></li>
+    </ul>
+</nav>

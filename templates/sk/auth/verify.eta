@@ -1,0 +1,17 @@
+<% layout("/sk/layout", { title: "overenie" }) %>
+
+<h1>overenie</h1>
+<p>zadajte kód z emailu alebo kliknite na link v emaili</p>
+
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+
+<% if (typeof errorValue === "string") { %>
+  <p class="error" style="color: red;"><%= errorValue %></p>
+<% } %>
+
+<form action="/auth/verify">
+    <input type="text" name="token" value="<%= it.token %>" style="display: none;" />
+    <input type="number" length="6" name="code" placeholder="676767" />
+
+    <button type="submit">odoslať</button>
+</form>

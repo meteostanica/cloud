@@ -1,0 +1,10 @@
+<p>hi!</p>
+
+<p>you can login using the following code: <strong><%= it.code %></strong></p>
+<p>or <a href="<%= it.link %>">click on this link</a></p>
+
+<p><%= it.link %></p>
+
+<p><small>if you did not request this email, feel free to ignore it.</small></p>
+
+<p>meteostanica</p>
