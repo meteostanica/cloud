@@ -59,5 +59,33 @@ export default {
         "code": "you entered too many wrong codes. try again later."
       }
     }
+  },
+
+  settings: {
+    errors: {
+      invalidEmail: "you need to provide a valid email.",
+
+      turnstile: {
+        "unavailable": "cannot connect to Turnstile. please try again.",
+        "noToken": "Turnstile token was not provided. please try again.",
+        "invalidResponse": "invalid Turnstile response. please try again.",
+        "keyUsedOrExpired": "Turnstile key already used or expired. please try again."
+      }
+    }
+  },
+
+  stations: {
+    errors: {
+      noName: "you need to provide a name.",
+      invalidOwner: "you need to provide a valid owner email.",
+      ownerUserNotFound: "no user with the provided email exists.",
+
+      turnstile: {
+        "unavailable": "cannot connect to Turnstile. please try again.",
+        "noToken": "Turnstile token was not provided. please try again.",
+        "invalidResponse": "invalid Turnstile response. please try again.",
+        "keyUsedOrExpired": "Turnstile key already used or expired. please try again."
+      }
+    }
   }
 }

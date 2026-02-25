@@ -1,0 +1,43 @@
+<% layout("/sk/layout", { title: "pridať stanicu" }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<div>
+  <h2>pridať stanicu</h2>
+
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors) %>
+
+  <% if (typeof errorValue === "string") { %>
+    <span class="error"><%= errorValue %></span>
+  <% } %>
+  
+  <form action="/panel/stations/add" method="post">
+    <div>
+      <label for="name">meno</label>
+      <input type="text" id="name" name="name" placeholder="cool stanica">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="description">popis</label>
+      <textarea id="description" name="description" placeholder="tá najviac cool"></textarea>
+    </div>
+
+    <br>
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+    <br>
+
+    <button type="submit">pridať</button>
+    <a href="/panel/stations">&lt;&lt; späť</a>
+  </form>
+</div>
+
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

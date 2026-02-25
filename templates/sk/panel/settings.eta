@@ -1,0 +1,46 @@
+<% layout("/sk/layout", { title: "nastavenia" }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<div>
+  <h2>nastavenia</h2>
+
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors) %>
+
+  <% if (typeof errorValue === "string") { %>
+    <span class="error"><%= errorValue %></span>
+  <% } %>
+  
+  <form action="/panel/settings" method="post">
+    <div>
+      <label for="name">meno</label>
+      <input type="text" id="name" name="name" placeholder="ferris" value="<%= it.user.name ?? "" %>">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="email">email</label>
+      <input type="text" id="email" name="email" placeholder="váš@email.sk" value="<%= it.user.email %>">
+    </div>
+
+    <br>
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+    <br>
+
+    <button type="submit">uložiť</button>
+  </form>
+
+  <br>
+
+  <a href="/auth/delete">zmazať účet</a>
+</div>
+
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

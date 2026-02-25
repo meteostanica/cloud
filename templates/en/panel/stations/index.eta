@@ -1,11 +1,9 @@
-<% layout("/en/layout", { title: "panel" }) %>
+<% layout("/en/layout", { title: "stations" }) %>
 
 <%~ include("/en/panel/partials/navbar") %>
 
-<h2>welcome back <%= it.user.name.length ? it.user.name : it.user.email %> !!</h2>
-
 <div>
-  <h3>your stations</h3>
+  <h2>your stations</h2>
 
     <% if (it.meteostanice?.length) { %>
         <ul>
@@ -17,9 +15,5 @@
         <p>no stations. :(</p>
     <% } %>
 
-  <a href="/en/panel/stations">see all</a>
+    <a href="/en/panel/stations/add">add</a>
 </div>
-
-<br>
-
-<a href="/en/auth/logout">logout</a>

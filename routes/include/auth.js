@@ -7,8 +7,7 @@ import ratelimits from '../../utils/ratelimits'
 import normalizeEmail from '../../utils/normalizeEmail';
 import Auth from '../../utils/auth';
 import validateTurnstile from '../../utils/validateTurnstile';
-import getFormatBasedOnCount from '../../utils/getFormatBasedOnCount';
-import formatTimeToString from '../../utils/formatTimeToString';
+import Meteostanice from '../../utils/meteostanice';
 
 export default (langName, lang) => new Elysia({ prefix: "/auth" })
   .get("/", async ({ cookie, redirect, query, set }) => {
@@ -40,7 +39,6 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
     if (dailyIPRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.ip`)
 
     const turnstileResponse = body?.["cf-turnstile-response"]
-    // const turnstileResponse = "1x00000000000000000000AA"
     if (!turnstileResponse) return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=turnstile.noToken`)
 
     const turnstileValid = await validateTurnstile(turnstileResponse, clientIP)
@@ -59,7 +57,7 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
 
     const verification = Auth.addVerification(email)
 
-    const emailLink = `https://meteostanica.com/${langName === "sk" ? `` : `${langName}/`}auth/verify?token=${verification.token}&code=${verification.code}`
+    const emailLink = `${process.env.BASE_URL}/${langName === "sk" ? `` : `${langName}/`}auth/verify?token=${verification.token}&code=${verification.code}`
 
     await Auth.sendVerification(email, lang.emails.auth.subject, lang.emails.auth.text(verification.code, emailLink), eta.render(`${langName}/email/auth`, { code: verification.code, link: emailLink }))
 
@@ -115,5 +113,19 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
       delete cookie.session
     }
 
+    return redirect(`/${langName === "sk" ? `` : langName}`)
+  })
+  .get("/delete", async ({ cookie, redirect }) => {
+    const token = cookie.session.value
+    const session = await Auth.getSession(token)
+
+    if (!session?.valid) {
+      return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=loginNeeded`)
+    }
+
+    delete cookie.session
+
+    Auth.removeUser(session.email)
+    
     return redirect(`/${langName === "sk" ? `` : langName}`)
   })

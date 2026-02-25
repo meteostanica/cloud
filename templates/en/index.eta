@@ -2,7 +2,6 @@
 
 <%~ include("/en/partials/navbar") %>
 
-
 <header>
     <div>
         <h1>it looks like this >>>>></h1>

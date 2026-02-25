@@ -1,0 +1,49 @@
+<% layout("/en/layout", { title: `edit station` }) %>
+
+<%~ include("/en/panel/partials/navbar") %>
+
+<div>
+  <h2><%= it.meteostanica.name %> - edit</h2>
+
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors) %>
+
+  <% if (typeof errorValue === "string") { %>
+    <span class="error"><%= errorValue %></span>
+  <% } %>
+  
+  <form action="/en/panel/stations/<%= it.meteostanica.id %>/edit" method="post">
+    <div>
+      <label for="name">name</label>
+      <input type="text" id="name" name="name" placeholder="cool station" value="<%= it.meteostanica.name %>">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="description">description</label>
+      <textarea id="description" name="description" placeholder="cool station"><%= it.meteostanica.description %></textarea>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="owner">owner</label>
+      <input type="text" id="owner" name="owner" placeholder="your@email.com" value="<%= it.meteostanica.owner %>">
+    </div>
+
+    <br>
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+    <br>
+
+    <button type="submit">save</button>
+    <a href="/en/panel/stations/<%= it.meteostanica.id %>">&lt;&lt; go back</a>
+  </form>
+</div>
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

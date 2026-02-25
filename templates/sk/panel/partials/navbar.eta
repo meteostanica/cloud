@@ -1,0 +1,10 @@
+<nav>
+    <h2>meteostanica panel</h2>
+
+    <ul>
+        <li><a href="/panel">dashboard</a></li>
+        <li><a href="/panel/stations">stanice</a></li>
+        <li><a href="/panel/settings">nastavenia</a></li>
+        <li><a href="/en/panel">🦅🦅🦅🇺🇸🇺🇸🇺🇸</a></li>
+    </ul>
+</nav>

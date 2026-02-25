@@ -1,0 +1,63 @@
+<% layout("/sk/layout", { title: it.meteostanica.name }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<a href="/panel/stations">&lt;&lt; späť</a>
+
+<h2><%= it.meteostanica.name %></h2>
+
+<% if (it.meteostanica.description) { %>
+    <p><%= it.meteostanica.description %></p>
+<% } %>
+
+<p>
+    <a href="/panel/stations/<%= it.meteostanica.id %>/edit">upraviť</a>
+    <a href="/panel/stations/<%= it.meteostanica.id %>/remove">odstrániť</a>
+</p>
+
+<p><strong>vytvorená:</strong> <%= it.meteostanica.timestamp %></p>
+
+<p><strong>websocket kľúč:</strong> <%= it.meteostanica.websocketKey %> <a href="/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey">reset</a></p>
+
+<% if (it.data?.[it.data?.length - 1]) { %>
+<div class="stats">
+    <div class="indoor">
+        <h3>vnútorné</h3>
+        <p>teplota: <%= it.data?.[it.data?.length - 1].indoorTemp / 100 %> °C</p>
+        <p>tlak: <%= it.data?.[it.data?.length - 1].indoorPressure / 100 %> hPa</p>
+        <p>vlhkosť: <%= it.data?.[it.data?.length - 1].indoorHumidity / 100 %>%</p>
+        <p>nadmorská výška: <%= it.data?.[it.data?.length - 1].indoorAltitude / 100 %>m</p>
+    </div>
+    <div class="outdoor">
+        <h3>vonkajšie</h3>
+        <p>pripojené: <%= it.data?.[it.data?.length - 1].outdoorConnected %></p>
+        <p>teplota: <%= it.data?.[it.data?.length - 1].outdoorTemp / 100 %> °C</p>
+        <p>tlak: <%= it.data?.[it.data?.length - 1].outdoorPressure / 100 %> hPa</p>
+        <p>vlhkosť: <%= it.data?.[it.data?.length - 1].outdoorHumidity / 100 %>%</p>
+        <p>nadmorská výška: <%= it.data?.[it.data?.length - 1].outdoorAltitude / 100 %>m</p>
+    </div>
+</div>
+<% } %>
+
+<h3>dáta</h3>
+
+<% if (it.data?.length) { %>
+    <div>
+        <table>
+            <tr>
+                <th>čas</th>
+                <th>vnútorné</th>
+                <th>vonkajšie</th>
+            </tr>
+            <% for (const item of it.data) { %>
+                <tr>
+                    <td><%= item.timestamp %></td>
+                    <td><strong>teplota:</strong> <%= item.indoorTemp / 100 %> °C, <strong>tlak:</strong> <%= item.indoorPressure / 100 %> hPa, <strong>vlhkosť:</strong> <%= item.indoorHumidity / 100 %>%, <strong>nadmorská výška:</strong> <%= item.indoorAltitude / 100 %>m</td>
+                    <td><strong>pripojené:</strong> <%= item.outdoorConnected %>, <strong>teplota:</strong> <%= item.outdoorTemp / 100 %> °C, <strong>tlak:</strong> <%= item.outdoorPressure  / 100%>hPa, <strong>vlhkosť:</strong> <%= item.outdoorHumidity / 100 %>%, <strong>nadmorská výška:</strong> <%= item.outdoorAltitude / 100 %>m</td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+<% } else { %>
+    <p>zatiaľ žiadne dáta. :(</p>
+<% } %>

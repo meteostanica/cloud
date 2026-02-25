@@ -1,0 +1,46 @@
+<% layout("/en/layout", { title: "settings" }) %>
+
+<%~ include("/en/panel/partials/navbar") %>
+
+<div>
+  <h2>settings</h2>
+
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors) %>
+
+  <% if (typeof errorValue === "string") { %>
+    <span class="error"><%= errorValue %></span>
+  <% } %>
+  
+  <form action="/en/panel/settings" method="post">
+    <div>
+      <label for="name">name</label>
+      <input type="text" id="name" name="name" placeholder="ferris" value="<%= it.user.name ?? "" %>">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="email">email</label>
+      <input type="text" id="email" name="email" placeholder="your@email.com" value="<%= it.user.email %>">
+    </div>
+
+    <br>
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+    <br>
+
+    <button type="submit">save</button>
+  </form>
+
+  <br>
+
+  <a href="/en/auth/delete">delete account</a>
+</div>
+
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

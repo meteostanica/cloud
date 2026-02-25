@@ -63,5 +63,33 @@ export default {
         "code": "zadali ste príliš veľa zlých kódov. skúste to znova neskôr."
       }
     }
+  },
+
+  settings: {
+    errors: {
+      invalidEmail: "musíte zadať platný email.",
+
+      turnstile: {
+        "unavailable": "nemožno kontaktovať Turnstile. prosím skúste to znova.",
+        "noToken": "Turnstile token nebol poskytnutý. prosím skúste to znova.",
+        "invalidResponse": "neplatná Turnstile odpoveď. prosím skúste to znova.",
+        "keyUsedOrExpired": "Turnstile kľúč už bol použitý alebo vypršal. prosím skúste to znova."
+      }
+    }
+  },
+
+  stations: {
+    errors: {
+      noName: "musíte zadať meno.",
+      invalidOwner: "musíte zadať platný email vlastníka.",
+      ownerUserNotFound: "používateľ so zadaným emailom neexistuje.",
+
+      turnstile: {
+        "unavailable": "nemožno kontaktovať Turnstile. prosím skúste to znova.",
+        "noToken": "Turnstile token nebol poskytnutý. prosím skúste to znova.",
+        "invalidResponse": "neplatná Turnstile odpoveď. prosím skúste to znova.",
+        "keyUsedOrExpired": "Turnstile kľúč už bol použitý alebo vypršal. prosím skúste to znova."
+      }
+    }
   }
 }

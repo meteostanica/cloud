@@ -8,6 +8,7 @@
   "dependencies": {
     "elysia": "^1.4.25",
     "eta": "^4.5.1",
+    "nanoid": "^5.1.6",
     "nodemailer": "^8.0.1"
   }
 }

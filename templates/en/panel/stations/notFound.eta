@@ -1,0 +1,7 @@
+<% layout("/en/layout", { title: "station not found" }) %>
+
+<%~ include("/en/panel/partials/navbar") %>
+
+<a href="/en/panel/stations">&lt;&lt; go back</a>
+
+<h2>station not found</h2>

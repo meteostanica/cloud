@@ -1,0 +1,7 @@
+<% layout("/sk/layout", { title: "stanica nenájdená" }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<a href="/panel/stations">&lt;&lt; späť</a>
+
+<h2>stanica nenájdená</h2>

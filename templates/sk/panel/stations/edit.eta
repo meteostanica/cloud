@@ -1,0 +1,49 @@
+<% layout("/sk/layout", { title: `upraviť stanicu` }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<div>
+  <h2><%= it.meteostanica.name %> - upraviť</h2>
+
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors) %>
+
+  <% if (typeof errorValue === "string") { %>
+    <span class="error"><%= errorValue %></span>
+  <% } %>
+  
+  <form action="/panel/stations/<%= it.meteostanica.id %>/edit" method="post">
+    <div>
+      <label for="name">meno</label>
+      <input type="text" id="name" name="name" placeholder="cool stanica" value="<%= it.meteostanica.name %>">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="description">popis</label>
+      <textarea id="description" name="description" placeholder="tá najviac cool"><%= it.meteostanica.description %></textarea>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="owner">vlastník</label>
+      <input type="text" id="owner" name="owner" placeholder="váš@email.sk" value="<%= it.meteostanica.owner %>">
+    </div>
+
+    <br>
+
+    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+    <br>
+
+    <button type="submit">uložiť</button>
+    <a href="/panel/stations/<%= it.meteostanica.id %>">&lt;&lt; späť</a>
+  </form>
+</div>
+
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script>

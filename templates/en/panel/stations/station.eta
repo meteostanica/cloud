@@ -1,0 +1,63 @@
+<% layout("/en/layout", { title: it.meteostanica.name }) %>
+
+<%~ include("/en/panel/partials/navbar") %>
+
+<a href="/en/panel/stations">&lt;&lt; go back</a>
+
+<h2><%= it.meteostanica.name %></h2>
+
+<% if (it.meteostanica.description) { %>
+    <p><%= it.meteostanica.description %></p>
+<% } %>
+
+<p>
+    <a href="/en/panel/stations/<%= it.meteostanica.id %>/edit">edit</a>
+    <a href="/en/panel/stations/<%= it.meteostanica.id %>/remove">remove</a>
+</p>
+
+<p><strong>created at:</strong> <%= it.meteostanica.timestamp %></p>
+
+<p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %> <a href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey">reset</a></p>
+
+<% if (it.data?.[it.data?.length - 1]) { %>
+<div class="stats">
+    <div class="indoor">
+        <h3>indoor</h3>
+        <p>temp: <%= it.data?.[it.data?.length - 1].indoorTemp / 100 %> °C</p>
+        <p>pressure: <%= it.data?.[it.data?.length - 1].indoorPressure / 100 %> hPa</p>
+        <p>humidity: <%= it.data?.[it.data?.length - 1].indoorHumidity / 100 %>%</p>
+        <p>altitude: <%= it.data?.[it.data?.length - 1].indoorAltitude / 100 %>m</p>
+    </div>
+    <div class="outdoor">
+        <h3>outdoor</h3>
+        <p>connected: <%= it.data?.[it.data?.length - 1].outdoorConnected %></p>
+        <p>temp: <%= it.data?.[it.data?.length - 1].outdoorTemp / 100 %> °C</p>
+        <p>pressure: <%= it.data?.[it.data?.length - 1].outdoorPressure / 100 %> hPa</p>
+        <p>humidity: <%= it.data?.[it.data?.length - 1].outdoorHumidity / 100 %>%</p>
+        <p>altitude: <%= it.data?.[it.data?.length - 1].outdoorAltitude / 100 %>m</p>
+    </div>
+</div>
+<% } %>
+
+<h3>data</h3>
+
+<% if (it.data?.length) { %>
+    <div>
+        <table>
+            <tr>
+                <th>time</th>
+                <th>indoor</th>
+                <th>outdoor</th>
+            </tr>
+            <% for (const item of it.data) { %>
+                <tr>
+                    <td><%= item.timestamp %></td>
+                    <td><strong>temp:</strong> <%= item.indoorTemp / 100 %> °C, <strong>pressure:</strong> <%= item.indoorPressure / 100 %> hPa, <strong>humidity:</strong> <%= item.indoorHumidity / 100 %>%, <strong>altitude:</strong> <%= item.indoorAltitude / 100 %>m</td>
+                    <td><strong>connected:</strong> <%= item.outdoorConnected %>, <strong>temp:</strong> <%= item.outdoorTemp / 100 %> °C, <strong>pressure:</strong> <%= item.outdoorPressure  / 100%>hPa, <strong>humidity:</strong> <%= item.outdoorHumidity / 100 %>%, <strong>altitude:</strong> <%= item.outdoorAltitude / 100 %>m</td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+<% } else { %>
+    <p>no data yet. :(</p>
+<% } %>

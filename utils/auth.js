@@ -22,6 +22,10 @@ authDB.run(`create table if not exists sessions (
 );`)
 
 import nodemailer from "nodemailer"
+import generateSecureRandomString from "./generateSecureRandomString";
+import generateSecureCode from "./generateSecureCode";
+import hashSecret from "./hashSecret";
+import Meteostanice from "./meteostanice";
 
 const transporter = nodemailer.createTransport({
   host: process.env.AUTH_EMAIL_SMTP_HOSTNAME,
@@ -87,6 +91,14 @@ export default class Auth {
         `).run(token)
     }
 
+    static removeUserVerifications(email) {
+        authDB.prepare(`
+            DELETE
+            FROM verifications 
+            WHERE email = ?;
+        `).run(email)
+    }
+
     static addUser(email) {
         const statement = authDB.prepare("INSERT INTO users (email) VALUES (?);")
 
@@ -105,6 +117,38 @@ export default class Auth {
         );
 
         return result;
+    }
+
+    static editUser(email, newName, newEmail) {
+        const statement = authDB.prepare("select * from users where email = ?;")
+
+        const user = statement.get(
+            email
+        );
+
+        if (!user) return null
+
+        const result = authDB.prepare(`
+            update users
+            set name = ?,
+            email = ?
+            where email = ?;
+        `).run(newName, newEmail, email)
+
+        return result
+    }
+
+    static removeUser(email) {
+        Meteostanice.removeOwned(email)
+
+        this.removeUserSessions(email)
+        this.removeUserVerifications(email)
+
+        authDB.prepare(`
+            DELETE
+            FROM users 
+            WHERE email = ?;
+        `).run(email)
     }
 
     static async createSession(email) {
@@ -154,45 +198,15 @@ export default class Auth {
         authDB.prepare(`
             DELETE
             FROM sessions 
-            WHERE id = $id;
+            WHERE id = ?;
         `).run(id)
     }
-}
 
-function generateSecureCode() {
-    // Generate a random 32-bit unsigned integer
-    const array = new Uint32Array(1);
-    crypto.getRandomValues(array);
-
-    // Use modulo to get a value within 1,000,000
-    // Then pad with leading zeros if you want 000000-999999
-    // Or adjust the math if you strictly want 100,000-999,999
-    const number = array[0] % 1000000;
-
-    return number.toString().padStart(6, '0');
-}
-
-function generateSecureRandomString() {
-    // Human readable alphabet (a-z, 0-9 without l, o, 0, 1 to avoid confusion)
-    const alphabet = "abcdefghijkmnpqrstuvwxyz23456789";
-
-    // Generate 24 bytes = 192 bits of entropy.
-    // We're only going to use 5 bits per byte so the total entropy will be 192 * 5 / 8 = 120 bits
-    const bytes = new Uint8Array(24);
-    crypto.getRandomValues(bytes);
-
-    let id = "";
-
-    for (let i = 0; i < bytes.length; i++) {
-        // >> 3 "removes" the right-most 3 bits of the byte
-        id += alphabet[bytes[i] >> 3];
+    static removeUserSessions(email) {
+        authDB.prepare(`
+            DELETE
+            FROM sessions 
+            WHERE email = ?;
+        `).run(email)
     }
-
-    return id;
-}
-
-async function hashSecret(secret) {
-    const secretBytes = new TextEncoder().encode(secret);
-    const secretHashBuffer = await crypto.subtle.digest("SHA-256", secretBytes);
-    return new Uint8Array(secretHashBuffer);
 }

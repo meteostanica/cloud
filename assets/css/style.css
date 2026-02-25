@@ -1,11 +1,4 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
-    background-color: #222;
-    color: #eee;
-    font-family: sans-serif;
     padding-inline: 10%;
 }
 
@@ -38,35 +31,11 @@ nav li {
     margin-inline: auto;
 }
 
-nav hr {
-    border: 0;
-    margin-left: -1rem;
-}
-
-nav a {
+/* nav a {
     color: #eee;
     text-decoration: none;
     font-size: 1.2rem;
-}
-
-nav a.button {
-    margin: 0;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-}
-
-a.button {
-    color: #eee;
-    text-decoration: none;
-    background-color: #333;
-    border-radius: 1rem;
-    corner-shape: squircle;
-    padding: 0.75rem 2rem;
-    display: inline-block;
-    margin-block: 1rem;
-    font-size: 1.1rem;
-}
+} */
 
 header {
     display: flex;
@@ -79,4 +48,38 @@ header {
 img {
     object-fit: cover;
     width: 100%;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.stats > div {
+    padding: 0.5rem 2rem;
+    background-color: lightgray;
+}
+
+div:has(> table) {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+span.error {
+    color: red;
 }
