@@ -134,7 +134,7 @@ export default class Meteostanice {
         meteostaniceDB.prepare(`
             DELETE
             FROM list 
-            WHERE owner = $owner AND id = $id;
+            WHERE id = $id;
         `).run({
             $id: id
         });
