@@ -120,7 +120,6 @@ export default class Meteostanice {
             FROM data 
             WHERE meteostanica = $id;
         `).run({
-            $owner: owner,
             $id: id
         });
 
@@ -137,7 +136,6 @@ export default class Meteostanice {
             FROM list 
             WHERE owner = $owner AND id = $id;
         `).run({
-            $owner: owner,
             $id: id
         });
     }
