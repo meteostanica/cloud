@@ -2,7 +2,7 @@
 
 <%~ include("/sk/panel/partials/navbar") %>
 
-<h2>vitajte späť <%= it.user.name.length ? it.user.name : it.user.email %> !!</h2>
+<h2>vitajte späť <%= it.user.name?.length ? it.user.name : it.user.email %> !!</h2>
 
 <div>
   <h2>vaše stanice</h2>

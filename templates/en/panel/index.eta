@@ -2,7 +2,7 @@
 
 <%~ include("/en/panel/partials/navbar") %>
 
-<h2>welcome back <%= it.user.name.length ? it.user.name : it.user.email %> !!</h2>
+<h2>welcome back <%= it.user.name?.length ? it.user.name : it.user.email %> !!</h2>
 
 <div>
   <h3>your stations</h3>
