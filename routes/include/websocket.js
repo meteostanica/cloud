@@ -14,9 +14,7 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
     },
 
     message({ data: { params: { key } } }, message) {
-        const messageString = typeof message === 'string' ? message : new TextDecoder().decode(message);
-
-        if (messageString === lang.websocket.keepalive()) {
+        if (message === lang.websocket.keepalive()) {
             return lang.websocket.keepalive()
         }
 
@@ -24,22 +22,6 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
 
         if (!meteostanica) {
             return lang.websocket.errors.invalidKey({ key })
-        }
-
-        const data = JSON.parse(messageString)
-        
-        if (
-            !data?.indoorTemp ||
-            !data?.indoorPressure ||
-            !data?.indoorHumidity ||
-            !data?.indoorAltitude ||
-            !data?.outdoorConnected ||
-            !data?.outdoorTemp ||
-            !data?.outdoorPressure ||
-            !data?.outdoorHumidity ||
-            !data?.outdoorAltitude
-        ) {
-            return lang.websocket.errors.missingFields()
         }
 
         const {
@@ -53,6 +35,20 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             outdoorHumidity,
             outdoorAltitude
         } = message
+
+        if (
+            !indoorTemp ||
+            !indoorPressure ||
+            !indoorHumidity ||
+            !indoorAltitude ||
+            !outdoorConnected ||
+            !outdoorTemp ||
+            !outdoorPressure ||
+            !outdoorHumidity ||
+            !outdoorAltitude
+        ) {
+            return lang.websocket.errors.missingFields()
+        }
         
         Meteostanice.postData(
             meteostanica.id,
