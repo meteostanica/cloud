@@ -24,8 +24,6 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             return send(lang.websocket.errors.invalidKey({ key }))
         }
 
-        message = Bun.JSON5.parse(message.toString())
-
         if (
             !message?.indoorTemp ||
             !message?.indoorPressure ||
