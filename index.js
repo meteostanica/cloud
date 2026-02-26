@@ -10,6 +10,6 @@ new Elysia()
 
     return file;
   })
-  .listen({ hostname: "127.0.0.1", port: 3000 })
+  .listen({ hostname: process.env.HOSTNAME, port: process.env.PORT })
 
-console.log(`running on port 3000`)
+console.log(`running on ${process.env.HOSTNAME}:${process.env.PORT}`)
