@@ -13,14 +13,14 @@ export default (type, value, limit, seconds) => {
         VALUES ($value)
         ON CONFLICT(subject) DO UPDATE SET
             countLeft = CASE 
-                WHEN (strftime('%s', 'now') - strftime('%s', timestamp)) > $seconds THEN $limit
+                WHEN unixepoch('now') > unixepoch(timestamp) + $seconds THEN $limit
                 ELSE MAX(0, countLeft - 1)
             END,
             timestamp = CASE 
-                WHEN (strftime('%s', 'now') - strftime('%s', timestamp)) > $seconds THEN CURRENT_TIMESTAMP
+                WHEN unixepoch('now') > unixepoch(timestamp) + $seconds THEN CURRENT_TIMESTAMP
                 ELSE timestamp
             END
-        RETURNING countLeft, timestamp;
+        RETURNING countLeft, timestamp, (unixepoch(timestamp) + $seconds - unixepoch('now')) AS duration;
     `);
 
     const result = statement.get({
@@ -30,9 +30,8 @@ export default (type, value, limit, seconds) => {
     });
     
     if (result.countLeft <= 0) {
-        const resetTime = new Date(new Date(result.timestamp).getTime() + seconds * 1000);
-        return { status: true, until: resetTime };
+        return { status: true, ...result };
     }
 
-    return { status: false, countLeft: result.countLeft };
+    return { status: false, ...result };
 }

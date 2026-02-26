@@ -11,5 +11,5 @@ export default (formats, count) => {
     }
   }
 
-  return formats[formatNumber];
+  return formats[formatNumber]?.();
 }

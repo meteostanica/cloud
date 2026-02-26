@@ -3,7 +3,7 @@
 <h2>auth</h2>
 <p>enter your email and we will send you a code.</p>
 
-<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors)?.(it?.errorDetails) %>
 
 <% if (typeof errorValue === "string") { %>
   <p class="error" style="color: red;"><%= errorValue %></p>

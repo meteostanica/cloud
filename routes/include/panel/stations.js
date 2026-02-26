@@ -196,7 +196,7 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
 
     if (!newOwner) {
       set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/stations/edit`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, meteostanica, error: "ownerUserNotFound" })
+      return eta.render(`${langName}/panel/stations/edit`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, meteostanica, error: "ownerUserNotFound", errorDetails: { newOwnerEmail } })
     }
 
     const newDescription = body?.description

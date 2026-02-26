@@ -3,7 +3,7 @@
 <h1>overenie</h1>
 <p>zadajte kód z emailu alebo kliknite na link v emaili</p>
 
-<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors)?.(it?.errorDetails) %>
 
 <% if (typeof errorValue === "string") { %>
   <p class="error" style="color: red;"><%= errorValue %></p>

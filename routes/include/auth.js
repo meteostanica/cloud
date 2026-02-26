@@ -19,9 +19,10 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
     }
 
     const error = query?.error
+    const duration = query?.duration
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/auth/index`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, error })
+    return eta.render(`${langName}/auth/index`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, error, errorDetails: { duration } })
   })
   .post("/", async ({ request, server, body, redirect }) => {
     const clientIP = request.headers.get('x-forwarded-for') ?? server.requestIP(request).address
@@ -30,13 +31,13 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
     if (!normalizeEmail(email)) return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=invalidEmail`)
 
     const hourlyEmailRatelimit = ratelimits("authEmailHourly", email, process.env.AUTH_EMAIL_HOURLY_RATELIMIT, 3600)
-    if (hourlyEmailRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.email`)
+    if (hourlyEmailRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.email&duration=${hourlyEmailRatelimit.duration}`)
 
     const hourlyIPRatelimit = ratelimits("authIPHourly", clientIP, process.env.AUTH_IP_HOURLY_RATELIMIT, 3600)
-    if (hourlyIPRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.ip`)
+    if (hourlyIPRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.ip&duration=${hourlyIPRatelimit.duration}`)
 
     const dailyIPRatelimit = ratelimits("authIPDaily", clientIP, process.env.AUTH_IP_DAILY_RATELIMIT, 86400)
-    if (dailyIPRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.ip`)
+    if (dailyIPRatelimit.status) return Response.redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=ratelimits.ip&duration=${dailyIPRatelimit.duration}`)
 
     const turnstileResponse = body?.["cf-turnstile-response"]
     if (!turnstileResponse) return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=turnstile.noToken`)
@@ -59,7 +60,7 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
 
     const emailLink = `${process.env.BASE_URL}/${langName === "sk" ? `` : `${langName}/`}auth/verify?token=${verification.token}&code=${verification.code}`
 
-    await Auth.sendVerification(email, lang.emails.auth.subject, lang.emails.auth.text(verification.code, emailLink), eta.render(`${langName}/email/auth`, { code: verification.code, link: emailLink }))
+    await Auth.sendVerification(email, lang.emails.auth.subject(), lang.emails.auth.text({ code: verification.code, link: emailLink }), eta.render(`${langName}/email/auth`, { code: verification.code, link: emailLink }))
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth/verify?token=${verification.token}`)
   })

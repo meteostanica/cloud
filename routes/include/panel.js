@@ -50,14 +50,6 @@ export default (langName, lang) => new Elysia({ prefix: "/panel" })
 
     const user = Auth.getUser(session.email)
 
-    const newName = body?.name
-    const newEmail = body?.email
-
-    if (!normalizeEmail(newEmail)) {
-      set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/settings`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, error: "invalidEmail" })
-    }
-
     const turnstileResponse = body?.["cf-turnstile-response"]
         
     if (!turnstileResponse) {
@@ -78,6 +70,21 @@ export default (langName, lang) => new Elysia({ prefix: "/panel" })
 
       set.headers['content-type'] = 'text/html; charset=utf8'
       return eta.render(`${langName}/panel/settings`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, error: errorMessage })
+    }
+
+    const newName = body?.name
+    const newEmail = body?.email
+
+    if (!normalizeEmail(newEmail)) {
+      set.headers['content-type'] = 'text/html; charset=utf8'
+      return eta.render(`${langName}/panel/settings`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, error: "invalidEmail" })
+    }
+
+    const newEmailUser = Auth.getUser(newEmail)
+
+    if (newEmailUser && session.email !== newEmail) {
+      set.headers['content-type'] = 'text/html; charset=utf8'
+      return eta.render(`${langName}/panel/settings`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, error: "emailTaken", errorDetails: { newEmail } })
     }
 
     Auth.editUser(session.email, newName, newEmail)

@@ -1,11 +1,27 @@
 import { Elysia } from 'elysia'
 import Meteostanice from '../../utils/meteostanice'
 
-export default new Elysia()
+export default (langName, lang) => new Elysia({ prefix: "/ws" })
   .ws("/sendData/:key", {
+    open({ send, data: { params: { key } } }) {
+        const meteostanica = Meteostanice.getWebsocket(key)
+
+        if (!meteostanica) {
+            return send(lang.websocket.errors.invalidKey({ key }))
+        }
+
+        return send(lang.websocket.keepalive())
+    },
+
     message({ send, data: { params: { key } } }, message) {
-        if (message === "meow :3") {
-            return send("meow :3")
+        if (message === lang.websocket.keepalive()) {
+            return send(lang.websocket.keepalive())
+        }
+
+        const meteostanica = Meteostanice.getWebsocket(key)
+
+        if (!meteostanica) {
+            return send(lang.websocket.errors.invalidKey({ key }))
         }
 
         message = Bun.JSON5.parse(message.toString())
@@ -21,13 +37,7 @@ export default new Elysia()
             !message?.outdoorHumidity ||
             !message?.outdoorAltitude
         ) {
-            return send("missing required fields: indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude")
-        }
-
-        const meteostanica = Meteostanice.getWebsocket(key)
-
-        if (!meteostanica) {
-            return send("invalid station websocket key")
+            return send(lang.websocket.errors.missingFields())
         }
 
         const {
@@ -55,6 +65,6 @@ export default new Elysia()
             outdoorAltitude
         )
 
-        send(`posted data for ${meteostanica.name}`)
+        return send(lang.websocket.dataSaved({ meteostanica }))
     }
   })

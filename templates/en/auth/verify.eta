@@ -3,7 +3,7 @@
 <h2>verification</h2>
 <p>enter the code from your email or click on the link</p>
 
-<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors)?.(it?.errorDetails) %>
 
 <% if (errorValue) { %>
   <p class="error" style="color: red;"><%= errorValue %></p>

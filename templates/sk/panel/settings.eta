@@ -5,7 +5,7 @@
 <div>
   <h2>nastavenia</h2>
 
-  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors) %>
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors)?.(it?.errorDetails) %>
 
   <% if (typeof errorValue === "string") { %>
     <span class="error"><%= errorValue %></span>
@@ -14,7 +14,7 @@
   <form action="/panel/settings" method="post">
     <div>
       <label for="name">meno</label>
-      <input type="text" id="name" name="name" placeholder="ferris" value="<%= it.user.name ?? "" %>">
+      <input type="text" id="name" name="name" placeholder="vaše meno" value="<%= it.user.name ?? "" %>">
     </div>
 
     <br>

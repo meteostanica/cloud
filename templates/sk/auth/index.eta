@@ -3,7 +3,7 @@
 <h1>prihlásenie</h1>
 <p>zadajte svoj email a kliknite na link, ktorý vám príde.</p>
 
-<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors) %>
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors)?.(it?.errorDetails) %>
 
 <% if (typeof errorValue === "string") { %>
   <p class="error" style="color: red;"><%= errorValue %></p>

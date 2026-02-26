@@ -5,7 +5,7 @@
 <div>
   <h2>add a station</h2>
 
-  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors) %>
+  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors)?.(it?.errorDetails) %>
 
   <% if (typeof errorValue === "string") { %>
     <span class="error"><%= errorValue %></span>
