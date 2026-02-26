@@ -94,7 +94,8 @@ export default class Meteostanice {
         const statement = meteostaniceDB.prepare(`
             SELECT *
             FROM list 
-            WHERE owner = $owner;
+            WHERE owner = $owner
+            ORDER BY timestamp DESC;
         `)
 
         const result = statement.all({
@@ -161,7 +162,8 @@ export default class Meteostanice {
         const statement = meteostaniceDB.prepare(`
             SELECT *
             FROM data 
-            WHERE meteostanica = $meteostanica;
+            WHERE meteostanica = $meteostanica
+            ORDER BY timestamp DESC;
         `)
 
         const result = statement.all({

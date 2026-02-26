@@ -19,22 +19,22 @@
 
 <p><strong>websocket kľúč:</strong> <%= it.meteostanica.websocketKey %> <a href="/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey">reset</a></p>
 
-<% if (it.data?.[it.data?.length - 1]) { %>
+<% if (it.data?.[0]) { %>
 <div class="stats">
     <div class="indoor">
         <h3>vnútorné</h3>
-        <p>teplota: <%= it.data?.[it.data?.length - 1].indoorTemp / 100 %> °C</p>
-        <p>tlak: <%= it.data?.[it.data?.length - 1].indoorPressure / 100 %> hPa</p>
-        <p>vlhkosť: <%= it.data?.[it.data?.length - 1].indoorHumidity / 100 %>%</p>
-        <p>nadmorská výška: <%= it.data?.[it.data?.length - 1].indoorAltitude / 100 %>m</p>
+        <p>teplota: <%= it.data?.[0].indoorTemp / 100 %> °C</p>
+        <p>tlak: <%= it.data?.[0].indoorPressure / 100 %> hPa</p>
+        <p>vlhkosť: <%= it.data?.[0].indoorHumidity / 100 %>%</p>
+        <p>nadmorská výška: <%= it.data?.[0].indoorAltitude / 100 %>m</p>
     </div>
     <div class="outdoor">
         <h3>vonkajšie</h3>
-        <p>pripojené: <%= it.data?.[it.data?.length - 1].outdoorConnected %></p>
-        <p>teplota: <%= it.data?.[it.data?.length - 1].outdoorTemp / 100 %> °C</p>
-        <p>tlak: <%= it.data?.[it.data?.length - 1].outdoorPressure / 100 %> hPa</p>
-        <p>vlhkosť: <%= it.data?.[it.data?.length - 1].outdoorHumidity / 100 %>%</p>
-        <p>nadmorská výška: <%= it.data?.[it.data?.length - 1].outdoorAltitude / 100 %>m</p>
+        <p>pripojené: <%= it.data?.[0].outdoorConnected %></p>
+        <p>teplota: <%= it.data?.[0].outdoorTemp / 100 %> °C</p>
+        <p>tlak: <%= it.data?.[0].outdoorPressure / 100 %> hPa</p>
+        <p>vlhkosť: <%= it.data?.[0].outdoorHumidity / 100 %>%</p>
+        <p>nadmorská výška: <%= it.data?.[0].outdoorAltitude / 100 %>m</p>
     </div>
 </div>
 <% } %>
