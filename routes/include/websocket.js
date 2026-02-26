@@ -7,21 +7,21 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
         const meteostanica = Meteostanice.getWebsocket(key)
 
         if (!meteostanica) {
-            return send(lang.websocket.errors.invalidKey({ key }))
+            return lang.websocket.errors.invalidKey({ key })
         }
 
-        return send(lang.websocket.keepalive())
+        return lang.websocket.keepalive()
     },
 
     message({ send, data: { params: { key } } }, message) {
         if (message === lang.websocket.keepalive()) {
-            return send(lang.websocket.keepalive())
+            return lang.websocket.keepalive()
         }
 
         const meteostanica = Meteostanice.getWebsocket(key)
 
         if (!meteostanica) {
-            return send(lang.websocket.errors.invalidKey({ key }))
+            return lang.websocket.errors.invalidKey({ key })
         }
 
         if (
@@ -35,7 +35,7 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             !message?.outdoorHumidity ||
             !message?.outdoorAltitude
         ) {
-            return send(lang.websocket.errors.missingFields())
+            return lang.websocket.errors.missingFields()
         }
 
         const {
@@ -63,6 +63,6 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             outdoorAltitude
         )
 
-        return send(lang.websocket.dataSaved({ meteostanica }))
+        return lang.websocket.dataSaved({ meteostanica })
     }
   })
