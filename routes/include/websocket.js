@@ -14,7 +14,9 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
     },
 
     message({ data: { params: { key } } }, message) {
-        if (message === lang.websocket.keepalive()) {
+        const messageString = typeof message === 'string' ? message : new TextDecoder().decode(message);
+
+        if (messageString === lang.websocket.keepalive()) {
             return lang.websocket.keepalive()
         }
 
@@ -24,16 +26,18 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             return lang.websocket.errors.invalidKey({ key })
         }
 
+        const data = JSON.parse(messageString)
+        
         if (
-            !message?.indoorTemp?.length ||
-            !message?.indoorPressure?.length ||
-            !message?.indoorHumidity?.length ||
-            !message?.indoorAltitude?.length ||
-            !message?.outdoorConnected?.length ||
-            !message?.outdoorTemp?.length ||
-            !message?.outdoorPressure?.length ||
-            !message?.outdoorHumidity?.length ||
-            !message?.outdoorAltitude?.length
+            !data?.indoorTemp ||
+            !data?.indoorPressure ||
+            !data?.indoorHumidity ||
+            !data?.indoorAltitude ||
+            !data?.outdoorConnected ||
+            !data?.outdoorTemp ||
+            !data?.outdoorPressure ||
+            !data?.outdoorHumidity ||
+            !data?.outdoorAltitude
         ) {
             return lang.websocket.errors.missingFields()
         }
