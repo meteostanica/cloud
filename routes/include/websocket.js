@@ -3,7 +3,7 @@ import Meteostanice from '../../utils/meteostanice'
 
 export default (langName, lang) => new Elysia({ prefix: "/ws" })
   .ws("/sendData/:key", {
-    open({ send, data: { params: { key } } }) {
+    open({ data: { params: { key } } }) {
         const meteostanica = Meteostanice.getWebsocket(key)
 
         if (!meteostanica) {
@@ -13,7 +13,7 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
         return lang.websocket.keepalive()
     },
 
-    message({ send, data: { params: { key } } }, message) {
+    message({ data: { params: { key } } }, message) {
         if (message === lang.websocket.keepalive()) {
             return lang.websocket.keepalive()
         }
