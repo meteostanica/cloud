@@ -25,15 +25,15 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
         }
 
         if (
-            !message?.indoorTemp ||
-            !message?.indoorPressure ||
-            !message?.indoorHumidity ||
-            !message?.indoorAltitude ||
-            !message?.outdoorConnected ||
-            !message?.outdoorTemp ||
-            !message?.outdoorPressure ||
-            !message?.outdoorHumidity ||
-            !message?.outdoorAltitude
+            !message?.indoorTemp?.length ||
+            !message?.indoorPressure?.length ||
+            !message?.indoorHumidity?.length ||
+            !message?.indoorAltitude?.length ||
+            !message?.outdoorConnected?.length ||
+            !message?.outdoorTemp?.length ||
+            !message?.outdoorPressure?.length ||
+            !message?.outdoorHumidity?.length ||
+            !message?.outdoorAltitude?.length
         ) {
             return lang.websocket.errors.missingFields()
         }
