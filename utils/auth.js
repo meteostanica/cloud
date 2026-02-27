@@ -135,6 +135,8 @@ export default class Auth {
             where email = ?;
         `).run(newName, newEmail, email)
 
+        Meteostanice.editOwnerOnOwned(email, newEmail)
+
         return result
     }
 

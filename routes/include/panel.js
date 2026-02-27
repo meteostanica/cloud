@@ -89,6 +89,12 @@ export default (langName, lang) => new Elysia({ prefix: "/panel" })
 
     Auth.editUser(session.email, newName, newEmail)
 
+    Auth.removeSession(session.id)
+
+    const newSession = await Auth.createSession(newEmail)
+    
+    cookie.session.value = newSession.token
+
     set.headers['content-type'] = 'text/html; charset=utf8'
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel`)
   })

@@ -115,6 +115,14 @@ export default class Meteostanice {
         `).run(newName, newDescription, newOwner, id)
     }
 
+    static editOwnerOnOwned(owner, newOwner) {
+        meteostaniceDB.prepare(`
+            update list
+            owner = ?
+            where owner = ?;
+        `).run(newOwner, owner)
+    }
+
     static remove(id) {
         meteostaniceDB.prepare(`
             DELETE
