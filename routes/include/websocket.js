@@ -41,7 +41,7 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             !indoorPressure?.length ||
             !indoorHumidity?.length ||
             !indoorAltitude?.length ||
-            !outdoorConnected?.length ||
+            !outdoorConnected?.toString()?.length ||
             !outdoorTemp?.length ||
             !outdoorPressure?.length ||
             !outdoorHumidity?.length ||
