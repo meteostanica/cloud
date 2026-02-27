@@ -37,15 +37,15 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
         } = message
 
         if (
-            !indoorTemp ||
-            !indoorPressure ||
-            !indoorHumidity ||
-            !indoorAltitude ||
-            !outdoorConnected ||
-            !outdoorTemp ||
-            !outdoorPressure ||
-            !outdoorHumidity ||
-            !outdoorAltitude
+            !indoorTemp?.length ||
+            !indoorPressure?.length ||
+            !indoorHumidity?.length ||
+            !indoorAltitude?.length ||
+            !outdoorConnected?.length ||
+            !outdoorTemp?.length ||
+            !outdoorPressure?.length ||
+            !outdoorHumidity?.length ||
+            !outdoorAltitude?.length
         ) {
             return lang.websocket.errors.missingFields()
         }
