@@ -118,7 +118,7 @@ export default class Meteostanice {
     static editOwnerOnOwned(owner, newOwner) {
         meteostaniceDB.prepare(`
             update list
-            owner = ?
+            set owner = ?
             where owner = ?;
         `).run(newOwner, owner)
     }
