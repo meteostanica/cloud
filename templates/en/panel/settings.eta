@@ -2,42 +2,67 @@
 
 <%~ include("/en/panel/partials/navbar") %>
 
-<div>
-  <h2>settings</h2>
+<% const settingsIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+      <circle cx="12" cy="12" r="3" />
+    </g>
+  </svg>
+` %>
 
-  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors)?.(it?.errorDetails) %>
+<% const errorIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01" />
+  </svg>
+` %>
 
-  <% if (typeof errorValue === "string") { %>
-    <span class="error"><%= errorValue %></span>
-  <% } %>
-  
-  <form action="/en/panel/settings" method="post">
-    <div>
-      <label for="name">name</label>
-      <input type="text" id="name" name="name" placeholder="ferris" value="<%= it.user.name ?? "" %>">
-    </div>
+<% const saveIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+      <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7" />
+    </g>
+  </svg>
+` %>
 
-    <br>
+<% const deleteIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+` %>
 
-    <div>
-      <label for="email">email</label>
-      <input type="text" id="email" name="email" placeholder="your@email.com" value="<%= it.user.email %>">
-    </div>
+<h2><%~ settingsIcon %> settings</h2>
 
-    <br>
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.settings?.errors)?.(it?.errorDetails) %>
 
-    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+<% if (typeof errorValue === "string") { %>
+  <div class="message error">
+    <p class="messageText"><%~ errorIcon %> <%= errorValue %></p>
+  </div>
+<% } %>
 
-    <br>
+<form action="/en/panel/settings" method="post">
+  <div>
+    <label for="name">name</label>
+    <input type="text" id="name" name="name" placeholder="ferris" value="<%= it.user.name ?? "" %>">
+  </div>
 
-    <button type="submit">save</button>
-  </form>
+  <div>
+    <label for="email">email</label>
+    <input type="text" id="email" name="email" placeholder="your@email.com" value="<%= it.user.email %>">
+  </div>
 
-  <br>
+  <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
 
-  <a href="/en/auth/delete">delete account</a>
+  <button type="submit" class="primary"><%~ saveIcon %> save</button>
+</form>
+
+<hr>
+
+<div class="container-row">
+  <a role="button" class="danger" href="/en/panel/deleteAccount"><%~ deleteIcon %> delete account</a>
 </div>
-
 
 <script
   src="https://challenges.cloudflare.com/turnstile/v0/api.js"

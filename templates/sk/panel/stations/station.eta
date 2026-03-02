@@ -2,62 +2,57 @@
 
 <%~ include("/sk/panel/partials/navbar") %>
 
-<a href="/panel/stations">&lt;&lt; späť</a>
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
 
-<h2><%= it.meteostanica.name %></h2>
+<% const resetIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+        </g>
+    </svg>
+` %>
+
+<% const editIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+        </g>
+    </svg>
+` %>
+
+<% const deleteIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+` %>
+
+<div class="container-row">
+    <a role="button" href="/panel/stations"><%~ backIcon %></a>
+    <h2><%= it.meteostanica.name %></h2>
+</div>
 
 <% if (it.meteostanica.description) { %>
-    <p><%= it.meteostanica.description %></p>
+    <p><strong>popis:</strong> <%= it.meteostanica.description %></p>
 <% } %>
-
-<p>
-    <a href="/panel/stations/<%= it.meteostanica.id %>/edit">upraviť</a>
-    <a href="/panel/stations/<%= it.meteostanica.id %>/remove">odstrániť</a>
-</p>
 
 <p><strong>vytvorená:</strong> <%= it.meteostanica.timestamp %></p>
 
-<p><strong>websocket kľúč:</strong> <%= it.meteostanica.websocketKey %> <a href="/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey">reset</a></p>
-
-<% if (it.data?.[0]) { %>
-<div class="stats">
-    <div class="indoor">
-        <h3>vnútorné</h3>
-        <p>teplota: <%= it.data?.[0].indoorTemp / 100 %> °C</p>
-        <p>tlak: <%= it.data?.[0].indoorPressure / 100 %> hPa</p>
-        <p>vlhkosť: <%= it.data?.[0].indoorHumidity / 100 %>%</p>
-        <p>nadmorská výška: <%= it.data?.[0].indoorAltitude / 100 %>m</p>
-    </div>
-    <div class="outdoor">
-        <h3>vonkajšie</h3>
-        <p>pripojené: <%= it.data?.[0].outdoorConnected %></p>
-        <p>teplota: <%= it.data?.[0].outdoorTemp / 100 %> °C</p>
-        <p>tlak: <%= it.data?.[0].outdoorPressure / 100 %> hPa</p>
-        <p>vlhkosť: <%= it.data?.[0].outdoorHumidity / 100 %>%</p>
-        <p>nadmorská výška: <%= it.data?.[0].outdoorAltitude / 100 %>m</p>
-    </div>
+<div class="container-row">
+    <p><strong>websocket kľúč:</strong> <%= it.meteostanica.websocketKey %></p>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>
 </div>
-<% } %>
 
-<h3>dáta</h3>
+<hr>
 
-<% if (it.data?.length) { %>
-    <div>
-        <table>
-            <tr>
-                <th>čas</th>
-                <th>vnútorné</th>
-                <th>vonkajšie</th>
-            </tr>
-            <% for (const item of it.data) { %>
-                <tr>
-                    <td><%= item.timestamp %></td>
-                    <td><strong>teplota:</strong> <%= item.indoorTemp / 100 %> °C, <strong>tlak:</strong> <%= item.indoorPressure / 100 %> hPa, <strong>vlhkosť:</strong> <%= item.indoorHumidity / 100 %>%, <strong>nadmorská výška:</strong> <%= item.indoorAltitude / 100 %>m</td>
-                    <td><strong>pripojené:</strong> <%= item.outdoorConnected %>, <strong>teplota:</strong> <%= item.outdoorTemp / 100 %> °C, <strong>tlak:</strong> <%= item.outdoorPressure  / 100%>hPa, <strong>vlhkosť:</strong> <%= item.outdoorHumidity / 100 %>%, <strong>nadmorská výška:</strong> <%= item.outdoorAltitude / 100 %>m</td>
-                </tr>
-            <% } %>
-        </table>
-    </div>
-<% } else { %>
-    <p>zatiaľ žiadne dáta. :(</p>
-<% } %>
+<div class="container-row">
+    <a role="button" class="primary" href="/panel/stations/<%= it.meteostanica.id %>/edit"><%~ editIcon %> upraviť</a>
+    <a role="button" class="danger" href="/panel/stations/<%= it.meteostanica.id %>/delete"><%~ deleteIcon %> odstrániť</a>
+</div>
+
+<p>(dáta s histórou (grafmi) bude tu)</p>

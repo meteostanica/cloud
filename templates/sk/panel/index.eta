@@ -2,24 +2,24 @@
 
 <%~ include("/sk/panel/partials/navbar") %>
 
-<h2>vitajte späť <%= it.user.name?.length ? it.user.name : it.user.email %> !!</h2>
+<% const staniceIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478" />
+            <circle cx="12" cy="12" r="2" />
+        </g>
+    </svg>
+` %>
 
-<div>
-  <h2>vaše stanice</h2>
+<h2>vitajte <%= it.user.name?.length ? it.user.name : it.user.email %>!</h2>
 
-    <% if (it.meteostanice?.length) { %>
-        <ul>
-            <% for (const meteostanica of it.meteostanice) { %>
-                <li><a href="/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></li>
-            <% } %>
-        </ul>
-    <% } else { %>
-        <p>žiadne stanice. :(</p>
-    <% } %>
+<section class="container-row">
+    <a role="button" href="/panel/stations"><%~ staniceIcon %> stanice</a>
+</section>
 
-    <a href="/panel/stations">zobraziť všetky</a>
-</div>
+<section>
+    <h3>posledné upozornenia</h3>
+    <p>zatiaľ žiadne upozornenia.</p>
+</section>
 
-<br>
-
-<a href="/auth/logout">odhlásiť sa</a>
+<a role="button" class="danger" href="/auth/logout">odhlásiť sa</a>

@@ -1,10 +1,47 @@
-<nav>
+<% const skFlag = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+        <mask id="SVGuywqVbel">
+            <circle cx="256" cy="256" r="256" fill="#fff" />
+        </mask>
+        <g mask="url(#SVGuywqVbel)">
+            <path fill="#0052b4" d="m0 160l256-32l256 32v192l-256 32L0 352z" />
+            <path fill="#eee" d="M0 0h512v160H0z" />
+            <path fill="#d80027" d="M0 352h512v160H0z" />
+            <path fill="#eee" d="M64 63v217c0 104 144 137 144 137s144-33 144-137V63z" />
+            <path fill="#d80027" d="M96 95v185a83 78 0 0 0 9 34h206a83 77 0 0 0 9-34V95z" />
+            <path fill="#eee" d="M288 224h-64v-32h32v-32h-32v-32h-32v32h-32v32h32v32h-64v32h64v32h32v-32h64z" />
+            <path fill="#0052b4" d="M152 359a247 231 0 0 0 56 24c12-3 34-11 56-24a123 115 0 0 0 47-45a60 56 0 0 0-34-10l-14 2a60 56 0 0 0-110 0a60 56 0 0 0-14-2c-12 0-24 4-34 10a123 115 0 0 0 47 45" />
+        </g>
+    </svg>
+` %>
+
+<% const homeIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+            <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        </g>
+    </svg>
+` %>
+
+<% const panelIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M12 17v4m2.305-13.47l.923-.382m0-2.296l-.923-.383m2.547-1.241l-.383-.924m.383 6.468l-.383.923m2.679-6.467l.383-.924m-.001 7.392l-.382-.924m1.624-3.92l.924-.383m-.924 2.679l.924.383M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7M8 21h8" />
+            <circle cx="18" cy="6" r="3" />
+        </g>
+    </svg>
+` %>
+
+<header>
+    <div class="links languageSwitcher">
+        <a role="button" href="/"><%~ skFlag %></a>
+    </div>
+
     <h2>meteostanica</h2>
 
-    <ul>
-        <li><a href="#">home</a></li>
-        <li><a href="#">home</a></li>
-        <li><a href="/en/auth" class="button">panel</a></li>
-        <li><a href="/">⛰️⛰️⛰️🇸🇰🇸🇰🇸🇰</a></li>
-    </ul>
-</nav>
+    <div class="links">
+        <a role="button" href="/en"><%~ homeIcon %> home</a>
+        <a role="button" href="/en/panel"><%~ panelIcon %> panel</a>
+    </div>
+</header>

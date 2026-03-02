@@ -1,0 +1,18 @@
+<% layout("/en/layout", { title: "delete account" }) %>
+
+<%~ include("/en/panel/partials/navbar") %>
+
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
+
+<div class="container-row">
+    <a role="button" href="/en/panel"><%~ backIcon %></a>
+    <h2>delete account</h2>
+</div>
+
+<p>are you sure you want to delete your account <strong><%= it?.user?.name ? `${it?.user?.name} (${it?.user.email})` : it?.user.email %></strong>?</p>
+
+<a role="button" class="danger" href="/en/auth/delete">delete account</a>

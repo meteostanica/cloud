@@ -1,10 +1,64 @@
-<nav>
+<% const usFlag = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+        <mask id="SVGuywqVbel">
+            <circle cx="256" cy="256" r="256" fill="#fff" />
+        </mask>
+        <g mask="url(#SVGuywqVbel)">
+            <path fill="#eee" d="M256 0h256v64l-32 32l32 32v64l-32 32l32 32v64l-32 32l32 32v64l-256 32L0 448v-64l32-32l-32-32v-64z" />
+            <path fill="#d80027" d="M224 64h288v64H224Zm0 128h288v64H256ZM0 320h512v64H0Zm0 128h512v64H0Z" />
+            <path fill="#0052b4" d="M0 0h256v256H0Z" />
+            <path fill="#eee" d="m187 243l57-41h-70l57 41l-22-67zm-81 0l57-41H93l57 41l-22-67zm-81 0l57-41H12l57 41l-22-67zm162-81l57-41h-70l57 41l-22-67zm-81 0l57-41H93l57 41l-22-67zm-81 0l57-41H12l57 41l-22-67Zm162-82l57-41h-70l57 41l-22-67Zm-81 0l57-41H93l57 41l-22-67zm-81 0l57-41H12l57 41l-22-67Z" />
+        </g>
+    </svg>
+` %>
+
+<% const homeIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+            <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        </g>
+    </svg>
+` %>
+
+<% const dashboardIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <rect width="20" height="14" x="2" y="3" rx="2" />
+            <path d="M8 21h8m-4-4v4" />
+        </g>
+    </svg>
+` %>
+
+<% const stationsIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478" />
+            <circle cx="12" cy="12" r="2" />
+        </g>
+    </svg>
+` %>
+
+<% const settingsIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+      <circle cx="12" cy="12" r="3" />
+    </g>
+  </svg>
+` %>
+
+<header>
+    <div class="links languageSwitcher">
+        <a role="button" href="/en/panel"><%~ usFlag %></a>
+        <a role="button" href="/"><%~ homeIcon %></a>
+    </div>
+
     <h2>meteostanica panel</h2>
 
-    <ul>
-        <li><a href="/panel">dashboard</a></li>
-        <li><a href="/panel/stations">stanice</a></li>
-        <li><a href="/panel/settings">nastavenia</a></li>
-        <li><a href="/en/panel">🦅🦅🦅🇺🇸🇺🇸🇺🇸</a></li>
-    </ul>
-</nav>
+    <div class="links">
+        <a role="button" href="/panel"><%~ dashboardIcon %> dashboard</a>
+        <a role="button" href="/panel/stations"><%~ stationsIcon %> stanice</a>
+        <a role="button" href="/panel/settings"><%~ settingsIcon %> nastavenia</a>
+    </div>
+</header>

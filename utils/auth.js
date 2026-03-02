@@ -140,8 +140,8 @@ export default class Auth {
         return result
     }
 
-    static removeUser(email) {
-        Meteostanice.removeOwned(email)
+    static deleteUser(email) {
+        Meteostanice.deleteOwned(email)
 
         this.removeUserSessions(email)
         this.removeUserVerifications(email)

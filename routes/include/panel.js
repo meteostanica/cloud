@@ -98,3 +98,16 @@ export default (langName, lang) => new Elysia({ prefix: "/panel" })
     set.headers['content-type'] = 'text/html; charset=utf8'
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel`)
   })
+  .get("/deleteAccount", async ({ cookie, redirect, set }) => {
+    const token = cookie.session.value
+    const session = await Auth.getSession(token)
+
+    if (!session) {
+      return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=loginNeeded`)
+    }
+
+    const user = Auth.getUser(session.email)
+
+    set.headers['content-type'] = 'text/html; charset=utf8'
+    return eta.render(`${langName}/panel/deleteAccount`, { user })
+  })

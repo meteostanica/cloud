@@ -2,18 +2,41 @@
 
 <%~ include("/sk/panel/partials/navbar") %>
 
-<div>
-  <h2>vaše stanice</h2>
+<% const staniceIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478" />
+            <circle cx="12" cy="12" r="2" />
+        </g>
+    </svg>
+` %>
 
-    <% if (it.meteostanice?.length) { %>
-        <ul>
-            <% for (const meteostanica of it.meteostanice) { %>
-                <li><a href="/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></li>
-            <% } %>
-        </ul>
-    <% } else { %>
-        <p>žiadne stanice. :(</p>
-    <% } %>
+<% const addIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14" />
+    </svg>
+` %>
 
-    <a href="/panel/stations/add">pridať</a>
+<div class="container-row">
+    <h2><%~ staniceIcon %> stanice</h2>
+    <a role="button" class="primary" href="/panel/stations/add"><%~ addIcon %> pridať</a>
 </div>
+
+<% if (it.meteostanice?.length) { %>
+    <table>
+        <tr>
+            <th>meno</th>
+            <th>popis</th>
+            <th>vytvorená</th>
+        </tr>
+        <% for (const meteostanica of it.meteostanice) { %>
+            <tr>
+                <td><a href="/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></td>
+                <td><%= meteostanica?.description ?? `` %></td>
+                <td><%= meteostanica.timestamp %></td>
+            </tr>
+        <% } %>
+    </table>
+<% } else { %>
+    <p>žiadne stanice. :(</p>
+<% } %>

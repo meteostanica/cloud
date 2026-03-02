@@ -1,19 +1,45 @@
 <% layout("/sk/layout", { title: "prihlásenie" }) %>
 
-<h1>prihlásenie</h1>
+<%~ include("/sk/partials/navbar") %>
+
+<% const authIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+      <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+    </g>
+  </svg>
+` %>
+
+<% const errorIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01" />
+  </svg>
+` %>
+
+<% const sendIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11zm7.318-19.539l-10.94 10.939" />
+  </svg>
+` %>
+
+
+<h1><%~ authIcon %> prihlásenie</h1>
 <p>zadajte svoj email a kliknite na link, ktorý vám príde.</p>
 
 <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.auth?.errors)?.(it?.errorDetails) %>
 
 <% if (typeof errorValue === "string") { %>
-  <p class="error" style="color: red;"><%= errorValue %></p>
+  <div class="message error">
+    <p class="messageText"><%~ errorIcon %> <%= errorValue %></p>
+  </div>
 <% } %>
 
 <form action="/auth" method="post">
     <input type="email" name="email" placeholder="vas@email.sk" required />
 
     <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
-    <button type="submit">odoslať</button>
+    <button type="submit"><%~ sendIcon %> odoslať</button>
 </form>
 
 <script

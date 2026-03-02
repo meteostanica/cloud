@@ -126,7 +126,7 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
 
     delete cookie.session
 
-    Auth.removeUser(session.email)
+    Auth.deleteUser(session.email)
     
     return redirect(`/${langName === "sk" ? `` : langName}`)
   })

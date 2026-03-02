@@ -2,62 +2,57 @@
 
 <%~ include("/en/panel/partials/navbar") %>
 
-<a href="/en/panel/stations">&lt;&lt; go back</a>
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
 
-<h2><%= it.meteostanica.name %></h2>
+<% const resetIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+        </g>
+    </svg>
+` %>
+
+<% const editIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+        </g>
+    </svg>
+` %>
+
+<% const deleteIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+` %>
+
+<div class="container-row">
+    <a role="button" href="/en/panel/stations"><%~ backIcon %></a>
+    <h2><%= it.meteostanica.name %></h2>
+</div>
 
 <% if (it.meteostanica.description) { %>
-    <p><%= it.meteostanica.description %></p>
+    <p><strong>description:</strong> <%= it.meteostanica.description %></p>
 <% } %>
 
-<p>
-    <a href="/en/panel/stations/<%= it.meteostanica.id %>/edit">edit</a>
-    <a href="/en/panel/stations/<%= it.meteostanica.id %>/remove">remove</a>
-</p>
+<p><strong>created:</strong> <%= it.meteostanica.timestamp %></p>
 
-<p><strong>created at:</strong> <%= it.meteostanica.timestamp %></p>
-
-<p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %> <a href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey">reset</a></p>
-
-<% if (it.data?.[0]) { %>
-<div class="stats">
-    <div class="indoor">
-        <h3>indoor</h3>
-        <p>temp: <%= it.data?.[0].indoorTemp / 100 %> °C</p>
-        <p>pressure: <%= it.data?.[0].indoorPressure / 100 %> hPa</p>
-        <p>humidity: <%= it.data?.[0].indoorHumidity / 100 %>%</p>
-        <p>altitude: <%= it.data?.[0].indoorAltitude / 100 %>m</p>
-    </div>
-    <div class="outdoor">
-        <h3>outdoor</h3>
-        <p>connected: <%= it.data?.[0].outdoorConnected %></p>
-        <p>temp: <%= it.data?.[0].outdoorTemp / 100 %> °C</p>
-        <p>pressure: <%= it.data?.[0].outdoorPressure / 100 %> hPa</p>
-        <p>humidity: <%= it.data?.[0].outdoorHumidity / 100 %>%</p>
-        <p>altitude: <%= it.data?.[0].outdoorAltitude / 100 %>m</p>
-    </div>
+<div class="container-row">
+    <p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %></p>
+    <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>
 </div>
-<% } %>
 
-<h3>data</h3>
+<hr>
 
-<% if (it.data?.length) { %>
-    <div>
-        <table>
-            <tr>
-                <th>time</th>
-                <th>indoor</th>
-                <th>outdoor</th>
-            </tr>
-            <% for (const item of it.data) { %>
-                <tr>
-                    <td><%= item.timestamp %></td>
-                    <td><strong>temp:</strong> <%= item.indoorTemp / 100 %> °C, <strong>pressure:</strong> <%= item.indoorPressure / 100 %> hPa, <strong>humidity:</strong> <%= item.indoorHumidity / 100 %>%, <strong>altitude:</strong> <%= item.indoorAltitude / 100 %>m</td>
-                    <td><strong>connected:</strong> <%= item.outdoorConnected %>, <strong>temp:</strong> <%= item.outdoorTemp / 100 %> °C, <strong>pressure:</strong> <%= item.outdoorPressure  / 100%>hPa, <strong>humidity:</strong> <%= item.outdoorHumidity / 100 %>%, <strong>altitude:</strong> <%= item.outdoorAltitude / 100 %>m</td>
-                </tr>
-            <% } %>
-        </table>
-    </div>
-<% } else { %>
-    <p>no data yet. :(</p>
-<% } %>
+<div class="container-row">
+    <a role="button" class="primary" href="/en/panel/stations/<%= it.meteostanica.id %>/edit"><%~ editIcon %> edit</a>
+    <a role="button" class="danger" href="/en/panel/stations/<%= it.meteostanica.id %>/delete"><%~ deleteIcon %> delete</a>
+</div>
+
+<p>(data with history (graphs) will go here)</p>

@@ -2,38 +2,52 @@
 
 <%~ include("/sk/panel/partials/navbar") %>
 
-<div>
-  <h2>pridať stanicu</h2>
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
 
-  <% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors)?.(it?.errorDetails) %>
+<% const addIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14" />
+    </svg>
+` %>
 
-  <% if (typeof errorValue === "string") { %>
-    <span class="error"><%= errorValue %></span>
-  <% } %>
-  
-  <form action="/panel/stations/add" method="post">
-    <div>
-      <label for="name">meno</label>
-      <input type="text" id="name" name="name" placeholder="cool stanica">
-    </div>
+<% const errorIcon = `
+  <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01" />
+  </svg>
+` %>
 
-    <br>
-
-    <div>
-      <label for="description">popis</label>
-      <textarea id="description" name="description" placeholder="tá najviac cool"></textarea>
-    </div>
-
-    <br>
-
-    <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
-
-    <br>
-
-    <button type="submit">pridať</button>
-    <a href="/panel/stations">&lt;&lt; späť</a>
-  </form>
+<div class="container-row">
+    <a role="button" href="/panel/stations"><%~ backIcon %></a>
+    <h2><%~ addIcon %> pridať stanicu</h2>
 </div>
+
+<% const errorValue = it.error?.split('.').reduce((a, b) => a[b], it.lang.stations?.errors)?.(it?.errorDetails) %>
+
+<% if (typeof errorValue === "string") { %>
+  <div class="message error">
+    <p class="messageText"><%~ errorIcon %> <%= errorValue %></p>
+  </div>
+<% } %>
+
+<form action="/panel/stations/add" method="post">
+  <div>
+    <label for="name">meno</label>
+    <input type="text" id="name" name="name" placeholder="cool stanica">
+  </div>
+
+  <div>
+    <label for="description">popis</label>
+    <textarea id="description" name="description" placeholder="tá najviac cool"></textarea>
+  </div>
+
+  <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
+
+  <button type="submit" class="primary"><%~ addIcon %> pridať</button>
+</form>
 
 
 <script

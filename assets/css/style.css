@@ -1,85 +1,224 @@
-body {
-    padding-inline: 10%;
-}
-
-nav {
-    display: flex;
-    gap: 1rem 3rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    margin-inline: 5%;
-    padding: 0.5rem 3rem;
-}
-
-nav h2 {
-    margin: 0 auto;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0 auto;
-}
-
-nav li {
-    margin-inline: auto;
-}
-
-/* nav a {
-    color: #eee;
-    text-decoration: none;
-    font-size: 1.2rem;
-} */
-
-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-block: 2rem;
-    gap: 2rem;
-}
-
 img {
     object-fit: cover;
     width: 100%;
 }
 
-.stats {
+body {
+    min-height: 100dvh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 10%;
+    font-family: sans-serif;
+    line-height: 1.3;
+    background-color: #eee;
+    gap: 0.5em;
+}
+
+#mainStats {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
+
+.message {
+    max-width: max-content;
+    margin-block: 0.5em;
+    padding: 0.25em 1em;
+    border-radius: 1em;
+    background-color: rgba(50, 50, 50, 0.3);
+    border: 2px solid rgb(50, 50, 50);
+    color: rgb(50, 50, 50);
+}
+
+.message.error {
+    background-color: rgba(255, 50, 50, 0.3);
+    border: 2px solid rgb(255, 50, 50);
+    color: rgb(255, 50, 50);
+}
+
+#mainStats .stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1em 5em;
 }
 
-.stats > div {
-    padding: 0.5rem 2rem;
-    background-color: lightgray;
+#mainStats .stats .wrapper {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
 }
 
-div:has(> table) {
-  overflow-x: auto;
+#mainStats .stats .values {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    width: 10em;
+    flex: 1;
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#mainStats .stats .values p {
+    margin: 0.5em 0;
+}
+
+p.messageText, a, button, h1, h2, h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 3em;
+    padding-block: 1em;
+}
+
+header > * {
+    margin-inline: auto;
+}
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+}
+
+header .languageSwitcher {
+    font-size: 1.3em;
+}
+
+header .links {
+    font-size: 1.1em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+[role="button"], button, select, input, textarea {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    color: initial;
+    border: none;
+    width: max-content;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1em;
+    height: max-content;
+    font-family: inherit;
+}
+
+[role="button"].danger, button.danger {
+    color: #eee;
+    background-color: rgb(255, 50, 50);
+}
+
+[role="button"].primary, button.primary {
+    color: #eee;
+    background-color: rgb(50, 50, 255);
+}
+
+input, select, textarea {
+    border: 2px solid rgba(0, 0, 0);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.historyLinks {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-block: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+#historyForm {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.container-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1em;
+    align-items: center;
+    margin-block: 0.5em;
+}
+
+hr {
+    width: 100%;
+    margin-block: 1em;
+    margin-inline: 0 auto;
+}
+
+.table-wrapper {
+    overflow: auto;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 0.5em;
+    width: 100%;
 }
 
-td, th {
-  border: 1px solid #dddddd;
+th, td {
   text-align: left;
-  padding: 8px;
+  padding: 0.5em 1em;
+  border-right: 1px solid currentColor;
+}
+
+th:last-of-type, td:last-of-type {
+    border-right: none;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-span.error {
-    color: red;
+section {
+    margin-block: 1em;
+}
+
+.indexHero {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 1em 5em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.indexHero > * {
+    margin-inline: auto;
 }

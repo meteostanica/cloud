@@ -123,7 +123,7 @@ export default class Meteostanice {
         `).run(newOwner, owner)
     }
 
-    static remove(id) {
+    static delete(id) {
         meteostaniceDB.prepare(`
             DELETE
             FROM data 
@@ -149,11 +149,11 @@ export default class Meteostanice {
         });
     }
 
-    static removeOwned(owner) {
+    static deleteOwned(owner) {
         const meteostanice = this.getOwned(owner)
 
         for (const meteostanica of meteostanice) {
-            this.remove(meteostanica.owner, meteostanica.id)
+            this.delete(meteostanica.owner, meteostanica.id)
         }
     }
 

@@ -1,0 +1,18 @@
+<% layout("/sk/layout", { title: "zmazať stanicu" }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
+
+<div class="container-row">
+    <a role="button" href="/panel/stations/<%= it?.meteostanica.id %>"><%~ backIcon %></a>
+    <h2>zmazať stanicu</h2>
+</div>
+
+<p>ste si istý, že chcete zmazať svoju stanicu <strong><%= it?.meteostanica.name %></strong>?</p>
+
+<a role="button" class="danger" href="/panel/stations/<%= it?.meteostanica.id %>/deleteConfirm">zmazať stanicu</a>

@@ -91,14 +91,14 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     
     if (!station) {
         set.headers['content-type'] = 'text/html; charset=utf8'
-        return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+        return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
     
     const meteostanica = Meteostanice.get(session.email, station)
     
     if (!meteostanica) {
       set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+      return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
 
     const data = Meteostanice.getData(meteostanica.id)
@@ -106,7 +106,6 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     set.headers['content-type'] = 'text/html; charset=utf8'
     return eta.render(`${langName}/panel/stations/station`, { user, meteostanica, data })
   })
-
   .get("/:station/edit",  async ({ cookie, redirect, set, params: { station } }) => {
     const token = cookie.session.value
     const session = await Auth.getSession(token)
@@ -119,14 +118,14 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     
     if (!station) {
         set.headers['content-type'] = 'text/html; charset=utf8'
-        return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+        return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
     
     const meteostanica = Meteostanice.get(session.email, station)
     
     if (!meteostanica) {
       set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+      return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
@@ -146,14 +145,14 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
 
     if (!station) {
         set.headers['content-type'] = 'text/html; charset=utf8'
-        return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+        return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
     
     const meteostanica = Meteostanice.get(session.email, station)
     
     if (!meteostanica) {
       set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+      return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
 
     const turnstileResponse = body?.["cf-turnstile-response"]
@@ -217,21 +216,46 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     
     if (!station) {
         set.headers['content-type'] = 'text/html; charset=utf8'
-        return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+        return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
     
     const meteostanica = Meteostanice.get(session.email, station)
     
     if (!meteostanica) {
       set.headers['content-type'] = 'text/html; charset=utf8'
-      return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+      return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
     }
 
     Meteostanice.resetWebsocketKey(meteostanica.id)
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel/stations/${meteostanica.id}`)
   })
-  .get("/:station/remove",  async ({ cookie, redirect, set, params: { station } }) => {
+  .get("/:station/delete",  async ({ cookie, redirect, set, params: { station } }) => {
+    const token = cookie.session.value
+    const session = await Auth.getSession(token)
+
+    if (!session) {
+      return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=loginNeeded`)
+    }
+
+    const user = Auth.getUser(session.email)
+    
+    if (!station) {
+        set.headers['content-type'] = 'text/html; charset=utf8'
+        return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
+    }
+    
+    const meteostanica = Meteostanice.get(session.email, station)
+    
+    if (!meteostanica) {
+      set.headers['content-type'] = 'text/html; charset=utf8'
+      return eta.render(`${langName}/panel/stations/notFound`, { lang, user })
+    }
+
+    set.headers['content-type'] = 'text/html; charset=utf8'
+    return eta.render(`${langName}/panel/stations/delete`, { user, meteostanica })
+  })
+  .get("/:station/deleteConfirm",  async ({ cookie, redirect, set, params: { station } }) => {
     const token = cookie.session.value
     const session = await Auth.getSession(token)
 
@@ -253,7 +277,7 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
       return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
     }
 
-    Meteostanice.remove(meteostanica.id)
+    Meteostanice.delete(meteostanica.id)
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel/stations`)
   })
