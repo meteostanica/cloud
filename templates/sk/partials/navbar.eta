@@ -35,7 +35,7 @@
         <a role="button" href="/en"><%~ usFlag %></a>
     </div>
 
-    <h2>meteostanica</h2>
+    <h2><%= process.env.APP_NAME %></h2>
 
     <div class="links">
         <a role="button" href="/"><%~ homeIcon %> domov</a>

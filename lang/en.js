@@ -46,7 +46,7 @@ export default {
 
         if you did not request this email, feel free to ignore it.
 
-        meteostanica
+        ${process.env.APP_NAME}
       `,
     },
   },

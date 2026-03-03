@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-    <h2>meteostanica</h2>
+    <h2><%= process.env.APP_NAME %></h2>
 
     <p>hi,</p>
 
@@ -58,7 +58,7 @@
 
     <footer>
         <p><small>if you did not request this email, you can safely ignore it.</small></p>
-        <p><small>meteostanica <%= new Date().getFullYear() %></small></p>
+        <p><small><%= process.env.APP_NAME %> <%= new Date().getFullYear() %></small></p>
     </footer>
 </body>
 </html>

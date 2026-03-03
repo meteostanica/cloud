@@ -57,7 +57,7 @@
         <a role="button" href="/en"><%~ homeIcon %></a>
     </div>
 
-    <h2>meteostanica panel</h2>
+    <h2><%= process.env.APP_NAME %></h2>
 
     <div class="links">
         <a role="button" href="/en/panel"><%~ dashboardIcon %> dashboard</a>

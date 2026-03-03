@@ -55,7 +55,7 @@ export default class Auth {
 
     static async sendVerification(email, subject, text, html) {
         return await transporter.sendMail({
-            from: '"auth — meteostanica" <auth@meteostanica.com>',
+            from: process.env.AUTH_EMAIL_SMTP_FROM,
             to: email,
             subject,
             text, // Plain-text version of the message

@@ -50,7 +50,7 @@ export default {
 
         ak ste tento email nevyžiadali, môžete ho kľudne ignorovať.
 
-        meteostanica
+        ${process.env.APP_NAME}
       `,
     },
   },
