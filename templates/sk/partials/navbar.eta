@@ -39,6 +39,6 @@
 
     <div class="links">
         <a role="button" href="/"><%~ homeIcon %> domov</a>
-        <a role="button" href="/panel"><%~ panelIcon %> panel</a>
+        <a role="button" href="/auth"><%~ panelIcon %> panel</a>
     </div>
 </header>
