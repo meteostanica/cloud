@@ -66,6 +66,6 @@
         <a role="button" href="/panel"><%~ dashboardIcon %> dashboard</a>
         <a role="button" href="/panel/stations"><%~ stationsIcon %> stanice</a>
         <a role="button" href="/panel/settings"><%~ settingsIcon %> nastavenia</a>
-        <a role="button" href="/auth/logout"><%~ logoutIcon %> odhlásiť sa</a>
+        <a role="button" class="danger" href="/auth/logout"><%~ logoutIcon %> odhlásiť sa</a>
     </div>
 </header>

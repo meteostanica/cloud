@@ -69,6 +69,6 @@
         <a role="button" href="/en/panel"><%~ dashboardIcon %> dashboard</a>
         <a role="button" href="/en/panel/stations"><%~ stationsIcon %> stations</a>
         <a role="button" href="/en/panel/settings"><%~ settingsIcon %> settings</a>
-        <a role="button" href="/en/auth/logout"><%~ logoutIcon %> logout</a>
+        <a role="button" class="danger" href="/en/auth/logout"><%~ logoutIcon %> logout</a>
     </div>
 </header>
