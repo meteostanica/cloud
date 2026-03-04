@@ -1,0 +1,13 @@
+[Unit]
+Description=meteostanica cloud
+After=network.target postfix.service dovecot.service
+Wants=network-online.target
+
+[Service]
+Restart=always
+Type=simple
+ExecStart=/home/meteostanica/.bun/bin/bun .
+WorkingDirectory=/home/meteostanica/cloud
+
+[Install]
+WantedBy=multi-user.target
