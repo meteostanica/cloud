@@ -21,5 +21,3 @@
     <h3>posledné upozornenia</h3>
     <p>zatiaľ žiadne upozornenia.</p>
 </section>
-
-<a role="button" class="danger" href="/auth/logout">odhlásiť sa</a>

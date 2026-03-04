@@ -34,7 +34,7 @@
 ` %>
 
 <header>
-    <div class="links languageSwitcher">
+    <div class="links">
         <a role="button" href="/"><%~ skFlag %></a>
     </div>
 

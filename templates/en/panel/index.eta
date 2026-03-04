@@ -21,5 +21,3 @@
     <h3>recent warnings</h3>
     <p>no recent warnings yet.</p>
 </section>
-
-<a role="button" class="danger" href="/en/auth/logout">logout</a>

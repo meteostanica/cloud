@@ -96,12 +96,7 @@ header > * {
     height: 1em;
 }
 
-header .languageSwitcher {
-    font-size: 1.3em;
-}
-
 header .links {
-    font-size: 1.1em;
     display: flex;
     gap: 1em;
     align-items: center;

@@ -31,7 +31,7 @@
 ` %>
 
 <header>
-    <div class="links languageSwitcher">
+    <div class="links">
         <a role="button" href="/en"><%~ usFlag %></a>
     </div>
 
