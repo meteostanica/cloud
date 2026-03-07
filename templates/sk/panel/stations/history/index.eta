@@ -1,0 +1,33 @@
+<% layout("/sk/panel/stations/history/layout", { title: it.meteostanica.name }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<% const historyIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5m4-1v5l4 2" />
+        </g>
+    </svg>
+` %>
+
+<%~ include("/sk/panel/stations/partials/details", { meteostanica: it.meteostanica }) %>
+
+<h2><%~ historyIcon %> história</h2>
+
+<h3>vnutorné</h3>
+
+<div class="container-row">
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/indoorTemp"><%~ it?.lang?.stations?.history.properties?.indoorTemp() %></a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/indoorPressure"><%~ it?.lang?.stations?.history.properties?.indoorPressure() %></a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/indoorHumidity"><%~ it?.lang?.stations?.history.properties?.indoorHumidity() %></a>
+</div>
+
+<h3>vonkajšie</h3>
+
+<div class="container-row">
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/outdoorConnected"><%~ it?.lang?.stations?.history.properties?.outdoorConnected() %></a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/outdoorTemp"><%~ it?.lang?.stations?.history.properties?.outdoorTemp() %></a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/outdoorPressure"><%~ it?.lang?.stations?.history.properties?.outdoorPressure() %></a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/outdoorHumidity"><%~ it?.lang?.stations?.history.properties?.outdoorHumidity() %></a>
+</div>

@@ -8,7 +8,10 @@ import Meteostanice from '../../../utils/meteostanice';
 import validateTurnstile from '../../../utils/validateTurnstile';
 import normalizeEmail from '../../../utils/normalizeEmail';
 
+import stationsHistory from './stationsHistory';
+
 export default (langName, lang) => new Elysia({ prefix: "/stations" })
+  .use(stationsHistory(langName, lang))
   .get("/", async ({ cookie, redirect, set }) => {
     const token = cookie.session.value
     const session = await Auth.getSession(token)
@@ -280,4 +283,29 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     Meteostanice.delete(meteostanica.id)
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel/stations`)
+  })
+  .get('/:station/currentData', async ({ cookie, redirect, set, params: { station } }) => {
+    const token = cookie.session.value
+    const session = await Auth.getSession(token)
+
+    if (!session) {
+      return redirect(`/${langName === "sk" ? `` : `${langName}/`}auth?error=loginNeeded`)
+    }
+
+    const user = Auth.getUser(session.email)
+    
+    if (!station) {
+        set.headers['content-type'] = 'text/html; charset=utf8'
+        return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+    }
+    
+    const meteostanica = Meteostanice.get(session.email, station)
+    
+    if (!meteostanica) {
+      set.headers['content-type'] = 'text/html; charset=utf8'
+      return eta.render(`${langName}/panel/stations/notFound`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user })
+    }
+
+    const data = Meteostanice.getData(station)
+    return data?.[0]
   })

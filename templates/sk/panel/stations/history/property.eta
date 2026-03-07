@@ -1,0 +1,101 @@
+<% layout("/sk/panel/stations/history/layout", { title: it.meteostanica.name }) %>
+
+<%~ include("/sk/panel/partials/navbar") %>
+
+<% const backIcon = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
+    </svg>
+` %>
+
+<%~ include("/sk/panel/stations/partials/details", { meteostanica: it.meteostanica }) %>
+
+<div class="container-row">
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history"><%~ backIcon %></a>
+    <h2><%~ it?.lang?.stations?.history.properties?.[it?.property]() %></h2>
+</div>
+
+<div class="historyLinks">
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/<%= it.property %>/daily">deň</a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/<%= it.property %>/monthly">mesiac</a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/<%= it.property %>/yearly">rok</a>
+    <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/history/<%= it.property %>/allTime">celý čas</a>
+</div>
+
+<% if (it?.dateMap?.years) { %>
+    <form id="historyForm">
+        <% if (it?.dateMap?.days) { %>
+            <div>
+            <label for="day">deň</label>
+            <select id="day" name="day">
+                <% for (const item of it?.dateMap?.days) { %>
+                    <option value="<%= item %>" <%= item === it?.dateMap?.days[it?.dateMap?.days.length - 1] ? `selected` : `` %> ><%= item %></option>
+                <% } %>
+            </select>
+            </div>
+        <% } %>
+
+        <% if (it?.dateMap?.months) { %>
+            <div>
+            <label for="month">mesiac</label>
+            <select id="month" name="month">
+                <% for (const item of it?.dateMap?.months) { %>
+                    <option value="<%= item %>" <%= item === it?.dateMap?.months[it?.dateMap?.months.length - 1] ? `selected` : `` %> > <%= it?.lang?.general.dateFormats.months?.[item]() %></option>
+                <% } %>
+            </select>
+            </div>
+        <% } %>
+
+        <div>
+            <label for="year">rok</label>
+            <select id="year" name="year">
+                <% for (const item of it?.dateMap?.years) { %>
+                    <option value="<%= item %>" <%= item === it?.dateMap?.years[it?.dateMap?.years.length - 1] ? `selected` : `` %> > <%= item %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <button type="submit">načítať</button>
+    </form>
+<% } %>
+
+<% const time = [] %>
+<% const data = [] %>
+
+<% for (const item of it.data) { %>
+    <% time.push(item.timeMark) %>
+    
+    <% if (it.property === "outdoorConnected") {%>
+        <% data.push(item.value) %>
+        <% continue %>
+    <% } %>
+
+    <% data.push(item.value / 100) %>
+<% } %>
+
+<div>
+    <canvas id="historyChart"></canvas>
+</div>
+
+<script>
+  const ctx = document.getElementById('historyChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: <%~ JSON.stringify(time, null, 2) %>,
+      datasets: [{
+        label: `<%= it.property %>`,
+        data: <%~ JSON.stringify(data, null, 2) %>,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

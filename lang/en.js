@@ -20,6 +20,23 @@ const general = {
     },
   },
 
+  dateFormats: {
+    months: {
+      [`01`]: () => `January`,
+      [`02`]: () => `February`,
+      [`03`]: () => `March`,
+      [`04`]: () => `April`,
+      [`05`]: () => `May`,
+      [`06`]: () => `June`,
+      [`07`]: () => `July`,
+      [`08`]: () => `August`,
+      [`09`]: () => `September`,
+      [`10`]: () => `October`,
+      [`11`]: () => `November`,
+      [`12`]: () => `December`,
+    }
+  },
+
   functionWords: {
     and: () => `and`,
   },
@@ -34,7 +51,36 @@ const general = {
   },
 }
 
+const icons = {
+  tempIcon: () => `
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0" />
+        </svg>
+    `,
+
+  pressureIcon: () => `
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 14l4-4M3.34 19a10 10 0 1 1 17.32 0" />
+        </svg>
+    `,
+
+  humidityIcon: () => `
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7" />
+        </svg>
+    `,
+
+  bluetoothConnectionIcon: () => `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 7l10 10l-5 5V2l5 5L7 17m11-5h3M3 12h3" />
+        </svg>
+    `
+}
+
 export default {
+  general,
+  icons,
+  
   emails: {
     auth: {
       subject: () => `login link`,
@@ -58,7 +104,7 @@ export default {
       verificationTokenUsedOrExpired: () => `verification token already used or expired. please try again.`,
       invalidVerificationCode: () => `invalid verification code. please try again.`,
       loginNeeded: () => `please log in first.`,
-      
+
       ratelimits: {
         email: (details) => {
           if (!Number.parseInt(details?.duration)) return `too many requests for this email. try again later.`
@@ -91,6 +137,19 @@ export default {
       ownerUserNotFound: (details) => `a user with the provided email (${details?.newOwnerEmail}) does not exist.`,
 
       turnstile: general.errors.turnstile,
+    },
+
+    history: {
+      properties: {
+        indoorTemp: () => `${icons.tempIcon()} indoor temperature`,
+        indoorPressure: () => `${icons.pressureIcon()} indoor pressure`,
+        indoorHumidity: () => `${icons.humidityIcon()} indoor humidity`,
+
+        outdoorConnected: () => `${icons.bluetoothConnectionIcon()} external unit connection`,
+        outdoorTemp: () => `${icons.tempIcon()} outdoor temperature`,
+        outdoorPressure: () => `${icons.pressureIcon()} outdoor pressure`,
+        outdoorHumidity: () => `${icons.humidityIcon()} outdoor humidity`,
+      },
     },
   },
 

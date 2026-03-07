@@ -182,10 +182,10 @@ export default class Meteostanice {
     }
 
     static getDataProperty(meteostanica, property) {
-        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        const tableNames = meteostaniceDB.prepare(`PRAGMA table_info('data');`).all()
         if (!tableNames.find(i => i.name === property)) return null
 
-        const statement = meteostanicaDB.prepare(`
+        const statement = meteostaniceDB.prepare(`
             SELECT ${property}
             FROM data
             WHERE meteostanica = $meteostanica
@@ -201,10 +201,10 @@ export default class Meteostanice {
     }
 
     static getDataPropertyDaily(meteostanica, property, date) {
-        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        const tableNames = meteostaniceDB.prepare(`PRAGMA table_info('data');`).all()
         if (!tableNames.find(i => i.name === property)) return null
 
-        const statement = meteostanicaDB.prepare(`
+        const statement = meteostaniceDB.prepare(`
             SELECT strftime('%Y-%m-%d %H:00:00', timestamp) AS timeMark, 
                 AVG(${property}) AS value
             FROM data
@@ -219,10 +219,10 @@ export default class Meteostanice {
     }
 
     static getDataPropertyMonthly(meteostanica, property, yearMonth) {
-        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        const tableNames = meteostaniceDB.prepare(`PRAGMA table_info('data');`).all()
         if (!tableNames.find(i => i.name === property)) return null
 
-        const statement = meteostanicaDB.prepare(`
+        const statement = meteostaniceDB.prepare(`
             SELECT date(timestamp) AS timeMark, 
                 AVG(${property}) AS value
             FROM data
@@ -237,10 +237,10 @@ export default class Meteostanice {
     }
 
     static getDataPropertyYearly(meteostanica, property, year) {
-        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        const tableNames = meteostaniceDB.prepare(`PRAGMA table_info('data');`).all()
         if (!tableNames.find(i => i.name === property)) return null
 
-        const statement = meteostanicaDB.prepare(`
+        const statement = meteostaniceDB.prepare(`
             SELECT strftime('%Y-%m', timestamp) AS timeMark, 
                 AVG(${property}) AS value
             FROM data
@@ -255,10 +255,10 @@ export default class Meteostanice {
     }
 
     static getDataPropertyAllTime(meteostanica, property) {
-        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        const tableNames = meteostaniceDB.prepare(`PRAGMA table_info('data');`).all()
         if (!tableNames.find(i => i.name === property)) return null
 
-        const statement = meteostanicaDB.prepare(`
+        const statement = meteostaniceDB.prepare(`
             SELECT strftime('%Y', timestamp) AS timeMark, 
                 AVG(${property}) AS value
             FROM data
@@ -273,7 +273,7 @@ export default class Meteostanice {
     }
 
     static getDateMap(meteostanica) {
-        const statement = meteostanicaDB.query("SELECT DISTINCT date(timestamp) as d FROM data WHERE meteostanica = ? ORDER BY d ASC");
+        const statement = meteostaniceDB.query("SELECT DISTINCT date(timestamp) as d FROM data WHERE meteostanica = ? ORDER BY d ASC");
         const rows = statement.all(meteostanica);
 
         return rows.reduce((acc, row) => {
