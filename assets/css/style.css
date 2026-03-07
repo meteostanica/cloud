@@ -73,6 +73,7 @@ body {
 
 p.messageText, a, button, h1, h2, h3 {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5em;
 }
@@ -112,13 +113,16 @@ header .links {
     color: initial;
     border: none;
     width: max-content;
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5em;
     font-size: 1em;
     height: max-content;
     font-family: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 [role="button"].danger, button.danger {

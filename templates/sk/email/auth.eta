@@ -3,62 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            padding-inline: 10%;
-            font-family: sans-serif;
-            line-height: 1.3;
-            background-color: #eee;
-            gap: 0.5em;
-        }
-
-        h2, p {
-            margin-block: 0.5em;
-        }
-
-        [role="button"] {
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 0.5em;
-            padding: 0.5em 1em;
-            text-decoration: none;
-            color: initial;
-            border: none;
-            width: max-content;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
-            font-size: 1em;
-            height: max-content;
-        }
-
-        [role="button"].primary {
-            color: #eee;
-            background-color: rgb(50, 50, 255);
-        }
-    </style>
+    <title>auth verifikácia</title>
 </head>
-<body>
-    <h2><%= process.env.APP_NAME %></h2>
+<body style="margin: 0; padding: 0; background-color: #eeeeee; font-family: sans-serif;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#eeeeee" style="background-color: #eeeeee;">
+        <tr>
+            <td align="center" style="padding: 20px 10%;">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    
+                    <tr>
+                        <td style="padding-top: 10px; padding-bottom: 10px;">
+                            <h2 style="margin: 0; font-size: 24px; color: #000000;"><%= process.env.APP_NAME %></h2>
+                        </td>
+                    </tr>
 
-    <p>dobrý deň,</p>
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <p style="margin: 0; font-size: 16px; line-height: 1.3; color: #000000;">dobrý deň,</p>
+                        </td>
+                    </tr>
 
-    <p>pre prihlásenie kliknite na tlačidlo nižšie.</p>
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <p style="margin: 0; font-size: 16px; line-height: 1.3; color: #000000;">pre prihlásenie kliknite na tlačidlo nižšie.</p>
+                        </td>
+                    </tr>
 
-    <a role="button" class="primary" href="<%= it.link %>">kliknite sem</a>
+                    <tr>
+                        <td style="padding-bottom: 15px;">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="center" bgcolor="#3232ff" style="border-radius: 8px; background-color: #3232ff;">
+                                        <a href="<%= it.link %>" target="_blank" style="padding: 10px 20px; font-size: 16px; color: #eeeeee; text-decoration: none; display: inline-block; font-weight: normal;">
+                                            kliknite sem
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-    <p>alebo zadajte tento kód: <strong><%= it.code %></strong></p>
+                    <tr>
+                        <td style="padding-bottom: 15px;">
+                            <p style="margin: 0; font-size: 16px; line-height: 1.3; color: #000000;">
+                                alebo zadajte tento kód: <strong><%= it.code %></strong>
+                            </p>
+                        </td>
+                    </tr>
 
+                    <tr>
+                        <td style="padding-bottom: 30px;">
+                            <p style="margin: 0; font-size: 16px; line-height: 1.3; color: #000000;">
+                                nemôžete kliknúť na link? skopírujte si ho: <span style="word-break: break-all;"><%= it.link %></span>
+                            </p>
+                        </td>
+                    </tr>
 
-    <p>nemôžete kliknúť na link? skopírujte si ho: <%= it.link %></p>
+                    <tr>
+                        <td style="border-top: 1px solid #cccccc; padding-top: 20px;">
+                            <p style="margin: 0; margin-bottom: 10px;"><small style="font-size: 12px; color: #666666;">ak ste si tento email nevyžiadali, môžete ho kľudne ignorovať.</small></p>
+                            <p style="margin: 0;"><small style="font-size: 12px; color: #666666;"><%= process.env.APP_NAME %> <%= new Date().getFullYear() %></small></p>
+                        </td>
+                    </tr>
 
-    <footer>
-        <p><small>ak ste si tento email nevyžiadali, môžete ho kľudne ignorovať.</small></p>
-        <p><small><%= process.env.APP_NAME %> <%= new Date().getFullYear() %></small></p>
-    </footer>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

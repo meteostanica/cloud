@@ -19,7 +19,7 @@ authDB.run(`create table if not exists sessions (
     secretHash text not null,
     email text not null,
     timestamp datetime default current_timestamp,
-    lastAccessed datetime default current_timestamp,
+    lastAccessed datetime default current_timestamp
 );`)
 
 import nodemailer from "nodemailer"
