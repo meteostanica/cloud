@@ -181,6 +181,113 @@ export default class Meteostanice {
         return result
     }
 
+    static getDataProperty(meteostanica, property) {
+        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        if (!tableNames.find(i => i.name === property)) return null
+
+        const statement = meteostanicaDB.prepare(`
+            SELECT ${property}
+            FROM data
+            WHERE meteostanica = $meteostanica
+            ORDER BY timestamp DESC
+            LIMIT 10;
+        `)
+
+        const result = statement.all({
+            $meteostanica: meteostanica
+        });
+
+        return result
+    }
+
+    static getDataPropertyDaily(meteostanica, property, date) {
+        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        if (!tableNames.find(i => i.name === property)) return null
+
+        const statement = meteostanicaDB.prepare(`
+            SELECT strftime('%Y-%m-%d %H:00:00', timestamp) AS timeMark, 
+                AVG(${property}) AS value
+            FROM data
+            WHERE meteostanica = ? AND date(timestamp) = ?  -- Pass 'YYYY-MM-DD' here
+            GROUP BY timeMark
+            ORDER BY timeMark;
+        `)
+        
+        const result = statement.all(meteostanica, date);
+
+        return result
+    }
+
+    static getDataPropertyMonthly(meteostanica, property, yearMonth) {
+        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        if (!tableNames.find(i => i.name === property)) return null
+
+        const statement = meteostanicaDB.prepare(`
+            SELECT date(timestamp) AS timeMark, 
+                AVG(${property}) AS value
+            FROM data
+            WHERE meteostanica = ? AND strftime('%Y-%m', timestamp) = ? -- Pass 'YYYY-MM' here
+            GROUP BY timeMark
+            ORDER BY timeMark;
+        `)
+        
+        const result = statement.all(meteostanica, yearMonth);
+
+        return result
+    }
+
+    static getDataPropertyYearly(meteostanica, property, year) {
+        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        if (!tableNames.find(i => i.name === property)) return null
+
+        const statement = meteostanicaDB.prepare(`
+            SELECT strftime('%Y-%m', timestamp) AS timeMark, 
+                AVG(${property}) AS value
+            FROM data
+            WHERE meteostanica = ? AND strftime('%Y', timestamp) = ? -- Pass 'YYYY' here
+            GROUP BY timeMark
+            ORDER BY timeMark;
+        `)
+        
+        const result = statement.all(meteostanica, year);
+
+        return result
+    }
+
+    static getDataPropertyAllTime(meteostanica, property) {
+        const tableNames = meteostanicaDB.prepare(`PRAGMA table_info('data');`).all()
+        if (!tableNames.find(i => i.name === property)) return null
+
+        const statement = meteostanicaDB.prepare(`
+            SELECT strftime('%Y', timestamp) AS timeMark, 
+                AVG(${property}) AS value
+            FROM data
+            WHERE meteostanica = ?
+            GROUP BY timeMark
+            ORDER BY timeMark;
+        `)
+        
+        const result = statement.all(meteostanica);
+
+        return result
+    }
+
+    static getDateMap(meteostanica) {
+        const statement = meteostanicaDB.query("SELECT DISTINCT date(timestamp) as d FROM data WHERE meteostanica = ? ORDER BY d ASC");
+        const rows = statement.all(meteostanica);
+
+        return rows.reduce((acc, row) => {
+            const [year, month, day] = row.d.split("-");
+
+            if (!acc[year]) acc[year] = {};
+            if (!acc[year][month]) acc[year][month] = [];
+
+            acc[year][month].push(day);
+
+            return acc;
+        }, {});
+    }
+
     static resetWebsocketKey(id) {
         const websocketKey = generateSecureRandomString()
 

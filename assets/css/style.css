@@ -4,11 +4,11 @@ img {
 }
 
 body {
-    min-height: 100dvh;
+    min-height: calc(100dvh - 2em);
     margin: 0;
     display: flex;
     flex-direction: column;
-    padding-inline: 10%;
+    padding: 1em 10%;
     font-family: sans-serif;
     line-height: 1.3;
     background-color: #eee;
@@ -41,6 +41,10 @@ body {
     color: rgb(255, 50, 50);
 }
 
+#mainStats > p {
+    margin: 0;
+}
+
 #mainStats .stats {
     display: flex;
     flex-wrap: wrap;
@@ -69,6 +73,10 @@ body {
 
 #mainStats .stats .values p {
     margin: 0.5em 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
 }
 
 p.messageText, a, button, h1, h2, h3 {
@@ -84,7 +92,6 @@ header {
     align-items: center;
     flex-wrap: wrap;
     gap: 0 3em;
-    padding-block: 1em;
 }
 
 header > * {
@@ -169,7 +176,7 @@ form > div {
 .container-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 1em;
+    gap: 1em;
     align-items: center;
     margin-block: 0.5em;
 }
