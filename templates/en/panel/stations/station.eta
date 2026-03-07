@@ -86,6 +86,21 @@
     <p><strong>description:</strong> <%= it.meteostanica.description %></p>
 <% } %>
 
+<p><strong>created:</strong> <%= it.meteostanica.timestamp %></p>
+
+<div class="container-row">
+    <p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %></p>
+    <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>
+</div>
+
+<hr>
+
+<div class="container-row">
+    <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/history"><%~ historyIcon %> history</a>
+    <a role="button" class="primary" href="/en/panel/stations/<%= it.meteostanica.id %>/edit"><%~ editIcon %> edit</a>
+    <a role="button" class="danger" href="/en/panel/stations/<%= it.meteostanica.id %>/delete"><%~ deleteIcon %> delete</a>
+</div>
+
 <% if (it.data?.[0]) { %>
     <div id="mainStats">
         <% /* <div class="message error">
@@ -155,18 +170,3 @@
         }, 10000)
     </script>
 <% } %>
-
-<p><strong>created:</strong> <%= it.meteostanica.timestamp %></p>
-
-<div class="container-row">
-    <p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %></p>
-    <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>
-</div>
-
-<hr>
-
-<div class="container-row">
-    <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/history"><%~ historyIcon %> history</a>
-    <a role="button" class="primary" href="/en/panel/stations/<%= it.meteostanica.id %>/edit"><%~ editIcon %> edit</a>
-    <a role="button" class="danger" href="/en/panel/stations/<%= it.meteostanica.id %>/delete"><%~ deleteIcon %> delete</a>
-</div>
