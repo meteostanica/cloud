@@ -101,7 +101,13 @@ export default (langName, lang) => new Elysia({ prefix: "/auth" })
 
     const session = await Auth.createSession(verification.email)
 
-    cookie.session.value = session.token
+    cookie.session.set({
+      value: session.token,
+      expires: new Date(2147483647 * 1000),
+      maxAge: new Date(2147483647 * 1000),
+      domain: process.env.BASE_URL.replace(/^https?:\/\/(www\.)?|:\d+/gi, ''),
+      httpOnly: true
+    })
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel`)
   })

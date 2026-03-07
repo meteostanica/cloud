@@ -18,7 +18,8 @@ authDB.run(`create table if not exists sessions (
     id text not null primary key,
     secretHash text not null,
     email text not null,
-    timestamp datetime default current_timestamp
+    timestamp datetime default current_timestamp,
+    lastAccessed datetime default current_timestamp,
 );`)
 
 import nodemailer from "nodemailer"
@@ -176,10 +177,12 @@ export default class Auth {
 
         const [id, secret] = token.split(".")
 
+        const secretHash = await hashSecret(secret)
+
         const statement = authDB.prepare(`
             SELECT *, 
             ( CASE
-                WHEN (strftime('%s', 'now') - strftime('%s', timestamp)) > $seconds THEN 0
+                WHEN (strftime('%s', 'now') - strftime('%s', lastAccessed)) > $seconds THEN 0
                 ELSE 1
                 END
             ) AS valid
@@ -190,8 +193,19 @@ export default class Auth {
         const result = statement.get({
             $seconds: process.env.SESSION_TIMEOUT,
             $id: id,
-            $secretHash: await hashSecret(secret)
-        });
+            $secretHash: secretHash
+        })
+
+        const updateStmt = authDB.prepare(`
+            UPDATE sessions 
+            SET lastAccessed = CURRENT_TIMESTAMP 
+            WHERE id = $id AND secretHash = $secretHash
+        `)
+        
+        updateStmt.run({
+            $id: id,
+            $secretHash: secretHash
+        })
 
         return result
     }
