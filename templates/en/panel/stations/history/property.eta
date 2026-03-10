@@ -78,7 +78,43 @@
 </div>
 
 <script>
-  const ctx = document.getElementById('historyChart');
+  const dateMap = <%~ JSON.stringify(it?.dateMap.raw, null, 2) %>
+
+  const monthLang = <%~ serializeToCode(it?.lang?.general.dateFormats.months) %>
+
+  const daySelect = document.querySelector("#historyForm select#day")
+  const monthSelect = document.querySelector("#historyForm select#month")
+  const yearSelect = document.querySelector("#historyForm select#year")
+
+  monthSelect.addEventListener('change', resetHistoryForm)
+  yearSelect.addEventListener('change', resetHistoryForm)
+
+  function resetHistoryForm(e) {
+    daySelect.textContent = ''
+    if (e.target.id === "year") monthSelect.textContent = ''
+
+    const years = Object.keys(dateMap)
+    const months = Object.keys(dateMap[years.find(i => i === yearSelect.value) ?? years[years.length - 1]])
+    const days = dateMap[years.find(i => i === yearSelect.value) ?? years[years.length - 1]][months.find(i => i === monthSelect?.value) ?? months[months.length - 1]]
+
+    for (const day of days) {
+        const option = document.createElement('option')
+        option.textContent = day
+        option.value = day
+        daySelect.append(option)
+    }
+
+    if (e.target.id === "year") {
+        for (const [key, value] of Object.entries(months)) {
+            const option = document.createElement('option')
+            option.textContent = monthLang[key]()
+            option.value = key
+            monthSelect.append(option)
+        }
+    }
+  }
+
+  const ctx = document.querySelector('#historyChart');
 
   new Chart(ctx, {
     type: 'bar',
@@ -99,3 +135,24 @@
     }
   });
 </script>
+
+<% function serializeToCode(obj) { %>
+  <% // Handle null/primitive types %>
+  <% if (obj === null) return 'null'; %>
+  <% if (typeof obj === 'string') return `'${obj.replace(/'/g, "\\'")}'`; %>
+  <% if (typeof obj !== 'object') return obj.toString(); %>
+
+  <% // Handle Arrays %>
+  <% if (Array.isArray(obj)) { %>
+    <% return `[${obj.map(item => serializeToCode(item)).join(',')}]`; %>
+  <% } %>
+
+  <% // Handle Objects %>
+  <% const entries = Object.entries(obj).map(([key, value]) => { %>
+    <% // Ensure keys are safe (quoted if they contain special characters) %>
+    <% const safeKey = /^[a-z$_][a-z0-9$_]*$/i.test(key) ? key : `'${key}'`; %>
+    <% return `${safeKey}: ${serializeToCode(value)}`; %>
+  <% }); %>
+
+  <% return `{${entries.join(',')}}`; %>
+<% } %>

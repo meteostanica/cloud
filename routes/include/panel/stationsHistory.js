@@ -72,7 +72,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days }, type: `daily`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
   })
  .get(`/:property/daily`, async ({ cookie, redirect, set, params: { station, property }, query: { day, month, year } }) => {
     const token = cookie.session.value
@@ -114,7 +114,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days }, type: `daily`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
   })
   .get(`/:property/monthly`, async ({ cookie, redirect, set, params: { station, property }, query: { month, year } }) => {
     const token = cookie.session.value
@@ -154,9 +154,9 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months }, type: `monthly`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, raw: dateMap }, type: `monthly`, property, meteostanica, data })
   })
-  .get(`/:property/yearly`, async ({ cookie, redirect, set, params: { station, property }, query: { month, year } }) => {
+  .get(`/:property/yearly`, async ({ cookie, redirect, set, params: { station, property }, query: { year } }) => {
     const token = cookie.session.value
     const session = await Auth.getSession(token)
 
@@ -192,9 +192,9 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years }, type: `yearly`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, raw: dateMap }, type: `yearly`, property, meteostanica, data })
   })
-  .get(`/:property/allTime`, async ({ cookie, redirect, set, params: { station, property }, query: { month, year } }) => {
+  .get(`/:property/allTime`, async ({ cookie, redirect, set, params: { station, property } }) => {
     const token = cookie.session.value
     const session = await Auth.getSession(token)
 
@@ -226,7 +226,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap, type: `allTime`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { raw: dateMap }, type: `allTime`, property, meteostanica, data })
   })
 //   .get(`/:property/allTime`, ({ params: { property }, set }) => {
 //     const data = Meteostanica.getDataPropertyAllTime(property)
