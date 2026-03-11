@@ -59,10 +59,10 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const years = Object.keys(dateMap)
     const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const months = Object.keys(dateMap[selectedYear])
+    const months = Object.keys(dateMap?.[selectedYear])
     const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-    const days = dateMap[selectedYear][selectedMonth]
+    const days = dateMap?.[selectedYear]?.[selectedMonth]
     const selectedDay = days.find(i => i === day) ?? days[days.length - 1]
 
     const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
@@ -102,10 +102,10 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const years = Object.keys(dateMap)
     const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const months = Object.keys(dateMap[selectedYear])
+    const months = Object.keys(dateMap?.[selectedYear])
     const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-    const days = dateMap[selectedYear][selectedMonth]
+    const days = dateMap?.[selectedYear]?.[selectedMonth]
     const selectedDay = days.find(i => i === day) ?? days[days.length - 1]
 
     const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
@@ -145,7 +145,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const years = Object.keys(dateMap)
     const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const months = Object.keys(dateMap[selectedYear])
+    const months = Object.keys(dateMap?.[selectedYear])
     const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
     const data = Meteostanice.getDataPropertyMonthly(station, property, `${selectedYear}-${selectedMonth}`)
