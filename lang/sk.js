@@ -154,8 +154,10 @@ const general = {
     // Handle Slovak grammar
     if (gender === "f") {
       finalAdjective = randomAdjective.replace(/[ýí]$/, "á");
+      finalAdjective = randomAdjective.replace(/[yi]$/, "a");
     } else if (gender === "n") {
       finalAdjective = randomAdjective.replace(/[ýí]$/, "é");
+      finalAdjective = randomAdjective.replace(/[yi]$/, "e");
     }
 
     // Capitalize first letters and return
