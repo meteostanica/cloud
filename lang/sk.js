@@ -153,11 +153,11 @@ const general = {
 
     // Handle Slovak grammar
     if (gender === "f") {
-      finalAdjective = randomAdjective.replace(/[ýí]$/, "á");
-      finalAdjective = randomAdjective.replace(/[yi]$/, "a");
+      finalAdjective = finalAdjective.replace(/[ýí]$/, "á");
+      finalAdjective = finalAdjective.replace(/[yi]$/, "a");
     } else if (gender === "n") {
-      finalAdjective = randomAdjective.replace(/[ýí]$/, "é");
-      finalAdjective = randomAdjective.replace(/[yi]$/, "e");
+      finalAdjective = finalAdjective.replace(/[ýí]$/, "é");
+      finalAdjective = finalAdjective.replace(/[yi]$/, "e");
     }
 
     // Capitalize first letters and return
