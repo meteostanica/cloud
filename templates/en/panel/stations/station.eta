@@ -104,4 +104,8 @@
             outdoorHumidity.textContent = data?.outdoorHumidity / 100
         }, 10000)
     </script>
+<% } else { %>
+    <div id="mainStats">
+        <p>no data :( send some using your websocket key above.</p>
+    </div>
 <% } %>

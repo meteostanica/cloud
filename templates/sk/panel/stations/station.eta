@@ -104,4 +104,8 @@
             outdoorHumidity.textContent = data?.outdoorHumidity / 100
         }, 10000)
     </script>
+<% } else { %>
+    <div id="mainStats">
+        <p>žiadne dáta :( pošlite nejaké pomocou vášho websocket kľúča vyššie.</p>
+    </div>
 <% } %>

@@ -22,123 +22,129 @@
     <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/history/<%= it.property %>/allTime">all time</a>
 </div>
 
-<% if (it?.dateMap?.years) { %>
-    <form id="historyForm">
-        <% if (it?.dateMap?.days) { %>
+<% if (it.data?.[0]) { %>
+    <% if (it?.dateMap?.years) { %>
+        <form id="historyForm">
+            <% if (it?.dateMap?.days) { %>
+                <div>
+                <label for="day">day</label>
+                <select id="day" name="day">
+                    <% for (const item of it?.dateMap?.days) { %>
+                        <option value="<%= item %>" <%= item === it?.selected?.day ? `selected` : `` %> ><%= item %></option>
+                    <% } %>
+                </select>
+                </div>
+            <% } %>
+
+            <% if (it?.dateMap?.months) { %>
+                <div>
+                <label for="month">month</label>
+                <select id="month" name="month">
+                    <% for (const item of it?.dateMap?.months) { %>
+                        <option value="<%= item %>" <%= item === it?.selected?.month ? `selected` : `` %> > <%= it?.lang?.general.dateFormats.months?.[item]() %></option>
+                    <% } %>
+                </select>
+                </div>
+            <% } %>
+
             <div>
-            <label for="day">day</label>
-            <select id="day" name="day">
-                <% for (const item of it?.dateMap?.days) { %>
-                    <option value="<%= item %>" <%= item === it?.selected?.day ? `selected` : `` %> ><%= item %></option>
-                <% } %>
-            </select>
+                <label for="year">year</label>
+                <select id="year" name="year">
+                    <% for (const item of it?.dateMap?.years) { %>
+                        <option value="<%= item %>" <%= item === it?.selected?.year ? `selected` : `` %> > <%= item %></option>
+                    <% } %>
+                </select>
             </div>
-        <% } %>
 
-        <% if (it?.dateMap?.months) { %>
-            <div>
-            <label for="month">month</label>
-            <select id="month" name="month">
-                <% for (const item of it?.dateMap?.months) { %>
-                    <option value="<%= item %>" <%= item === it?.selected?.month ? `selected` : `` %> > <%= it?.lang?.general.dateFormats.months?.[item]() %></option>
-                <% } %>
-            </select>
-            </div>
-        <% } %>
-
-        <div>
-            <label for="year">year</label>
-            <select id="year" name="year">
-                <% for (const item of it?.dateMap?.years) { %>
-                    <option value="<%= item %>" <%= item === it?.selected?.year ? `selected` : `` %> > <%= item %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <button type="submit">load</button>
-    </form>
-<% } %>
-
-<% const time = [] %>
-<% const data = [] %>
-
-<% for (const item of it.data) { %>
-    <% time.push(item.timeMark) %>
-    
-    <% if (it.property === "outdoorConnected") {%>
-        <% data.push(item.value) %>
-        <% continue %>
+            <button type="submit">load</button>
+        </form>
     <% } %>
 
-    <% data.push(item.value / 100) %>
-<% } %>
+    <% const time = [] %>
+    <% const data = [] %>
 
-<div>
-    <canvas id="historyChart"></canvas>
-</div>
+    <% for (const item of it.data) { %>
+        <% time.push(item.timeMark) %>
+        
+        <% if (it.property === "outdoorConnected") {%>
+            <% data.push(item.value) %>
+            <% continue %>
+        <% } %>
 
-<script>
-  const dateMap = <%~ JSON.stringify(it?.dateMap.raw, null, 2) %>
+        <% data.push(item.value / 100) %>
+    <% } %>
 
-  const monthLang = <%~ serializeToCode(it?.lang?.general.dateFormats.months) %>
+    <div>
+        <canvas id="historyChart"></canvas>
+    </div>
 
-  const daySelect = document.querySelector("#historyForm select#day")
-  const monthSelect = document.querySelector("#historyForm select#month")
-  const yearSelect = document.querySelector("#historyForm select#year")
+    <script>
+    const dateMap = <%~ JSON.stringify(it?.dateMap.raw, null, 2) %>
 
-  monthSelect.addEventListener('change', resetHistoryForm)
-  yearSelect.addEventListener('change', resetHistoryForm)
+    const monthLang = <%~ serializeToCode(it?.lang?.general.dateFormats.months) %>
 
-  function resetHistoryForm(e) {
-    daySelect.textContent = ''
-    if (e.target.id === "year") monthSelect.textContent = ''
+    const daySelect = document.querySelector("#historyForm select#day")
+    const monthSelect = document.querySelector("#historyForm select#month")
+    const yearSelect = document.querySelector("#historyForm select#year")
 
-    const years = Object.keys(dateMap)
-    const selectedYear = years.find(i => i === yearSelect.value) ?? years[years.length - 1]
+    monthSelect.addEventListener('change', resetHistoryForm)
+    yearSelect.addEventListener('change', resetHistoryForm)
 
-    const months = Object.keys(dateMap[selectedYear])
-    const selectedMonth = months.find(i => i === monthSelect.value) ?? months[months.length - 1]
+    function resetHistoryForm(e) {
+        daySelect.textContent = ''
+        if (e.target.id === "year") monthSelect.textContent = ''
 
-    const days = dateMap[selectedYear][selectedMonth]
+        const years = Object.keys(dateMap)
+        const selectedYear = years.find(i => i === yearSelect.value) ?? years[years.length - 1]
 
-    for (const day of days) {
-        const option = document.createElement('option')
-        option.textContent = day
-        option.value = day
-        daySelect.append(option)
-    }
+        const months = Object.keys(dateMap[selectedYear])
+        const selectedMonth = months.find(i => i === monthSelect.value) ?? months[months.length - 1]
 
-    if (e.target.id === "year") {
-        for (const [key, value] of Object.entries(months)) {
+        const days = dateMap[selectedYear][selectedMonth]
+
+        for (const day of days) {
             const option = document.createElement('option')
-            option.textContent = monthLang[key]()
-            option.value = key
-            monthSelect.append(option)
+            option.textContent = day
+            option.value = day
+            daySelect.append(option)
+        }
+
+        if (e.target.id === "year") {
+            for (const [key, value] of Object.entries(months)) {
+                const option = document.createElement('option')
+                option.textContent = monthLang[key]()
+                option.value = key
+                monthSelect.append(option)
+            }
         }
     }
-  }
 
-  const ctx = document.querySelector('#historyChart');
+    const ctx = document.querySelector('#historyChart');
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: <%~ JSON.stringify(time, null, 2) %>,
-      datasets: [{
-        label: `<%= it.property %>`,
-        data: <%~ JSON.stringify(data, null, 2) %>,
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: <%~ JSON.stringify(time, null, 2) %>,
+        datasets: [{
+            label: `<%= it.property %>`,
+            data: <%~ JSON.stringify(data, null, 2) %>,
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
         }
-      }
-    }
-  });
-</script>
+        }
+    });
+    </script>
+<% } else { %>
+    <div id="mainStats">
+        <p>no data :( send some using your websocket key above.</p>
+    </div>
+<% } %>
 
 <% function serializeToCode(obj) { %>
   <% // Handle null/primitive types %>
