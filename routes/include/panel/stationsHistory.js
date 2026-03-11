@@ -56,7 +56,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    if (dateMap) {
+    if (Object.keys(dateMap).length) {
         const years = Object.keys(dateMap)
         const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
@@ -101,7 +101,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    if (dateMap) {
+    if (Object.keys(dateMap).length) {
         const years = Object.keys(dateMap)
         const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
@@ -146,7 +146,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    if (dateMap) {
+    if (Object.keys(dateMap).length) {
         const years = Object.keys(dateMap)
         const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
@@ -188,7 +188,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    if (dateMap) {
+    if (Object.keys(dateMap).length) {
         const years = Object.keys(dateMap)
         const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
