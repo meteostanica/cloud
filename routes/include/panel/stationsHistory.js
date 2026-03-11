@@ -56,7 +56,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
 
-    let years, months, days, selectedYear, selectedMonth, selectedDay
+    let years, months, days, selectedYear, selectedMonth, selectedDay, data
     
     if (Object.keys(dateMap).length) {
         years = Object.keys(dateMap)
@@ -68,7 +68,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
         days = dateMap?.[selectedYear]?.[selectedMonth]
         selectedDay = days.find(i => i === day) ?? days[days.length - 1]
 
-        const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
+        data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
 
         if (!data) {
             set.headers['content-type'] = 'text/html; charset=utf8'
@@ -103,7 +103,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    let years, months, days, selectedYear, selectedMonth, selectedDay
+    let years, months, days, selectedYear, selectedMonth, selectedDay, data
 
     if (Object.keys(dateMap).length) {
         years = Object.keys(dateMap)
@@ -115,7 +115,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
         days = dateMap?.[selectedYear]?.[selectedMonth]
         selectedDay = days.find(i => i === day) ?? days[days.length - 1]
 
-        const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
+        data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
 
         if (!data) {
             set.headers['content-type'] = 'text/html; charset=utf8'
@@ -150,7 +150,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
     
-    let years, months, selectedYear, selectedMonth
+    let years, months, selectedYear, selectedMonth, data
 
     if (Object.keys(dateMap).length) {
         years = Object.keys(dateMap)
@@ -159,7 +159,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
         months = Object.keys(dateMap?.[selectedYear])
         selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-        const data = Meteostanice.getDataPropertyMonthly(station, property, `${selectedYear}-${selectedMonth}`)
+        data = Meteostanice.getDataPropertyMonthly(station, property, `${selectedYear}-${selectedMonth}`)
 
         if (!data) {
             set.headers['content-type'] = 'text/html; charset=utf8'
@@ -194,13 +194,13 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     
     const dateMap = Meteostanice.getDateMap(station)
 
-    let years, selectedYear
+    let years, selectedYear, data
     
     if (Object.keys(dateMap).length) {
         years = Object.keys(dateMap)
         selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-        const data = Meteostanice.getDataPropertyYearly(station, property, selectedYear)
+        data = Meteostanice.getDataPropertyYearly(station, property, selectedYear)
 
         if (!data) {
             set.headers['content-type'] = 'text/html; charset=utf8'
