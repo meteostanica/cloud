@@ -233,7 +233,9 @@ export default {
     errors: {
       noName: () => `you need to provide a name.`,
       invalidOwner: () => `you need to provide a valid owner email.`,
-      ownerUserNotFound: (details) => `a user with the provided email (${details?.newOwnerEmail}) does not exist.`,
+      ownerUserNotFound: (details) => `no user with the provided email (${details?.newOwnerEmail}) exists.`,
+      invalidSubowner: () => `one (or more) of the subowner emails is invalid.`,
+      subownerUserNotFound: (details) => `no user with the provided email (${details?.subownerEmail}) exists.`,
 
       turnstile: general.errors.turnstile,
     },

@@ -61,6 +61,12 @@
     <input type="text" id="owner" name="owner" placeholder="váš@email.sk" value="<%= it.meteostanica.owner %>">
   </div>
 
+  <div>
+    <label for="subowners">podvlastníci</label>
+    <small>emaily oddelené čiarkou</small>
+    <textarea id="subowners" name="subowners" placeholder="podvlastník@email.sk[,podvlastník2@email.sk]"><%= JSON.parse(it.meteostanica?.subowners)?.length ? JSON.parse(it.meteostanica?.subowners).join(',') : "" %></textarea>
+  </div>
+
   <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
 
   <button type="submit" class="primary"><%~ saveIcon %> uložiť</button>

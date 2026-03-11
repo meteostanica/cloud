@@ -61,6 +61,12 @@
     <input type="text" id="owner" name="owner" placeholder="your@email.com" value="<%= it.meteostanica.owner %>">
   </div>
 
+  <div>
+    <label for="subowners">subowners</label>
+    <small>emails separated by a comma</small>
+    <textarea id="subowners" name="subowners" placeholder="subowner@email.com[,subowner2@email.com]"><%= JSON.parse(it.meteostanica?.subowners)?.length ? JSON.parse(it.meteostanica?.subowners).join(',') : "" %></textarea>
+  </div>
+
   <div class="cf-turnstile" data-sitekey="<%= it.siteKey %>"></div>
 
   <button type="submit" class="primary"><%~ saveIcon %> save</button>

@@ -251,7 +251,9 @@ export default {
     errors: {
       noName: () => `musíte zadať meno.`,
       invalidOwner: () => `musíte zadať platný email vlastníka.`,
-      ownerUserNotFound: (details) => `používateľ so zadaným emailom (${details?.newOwnerEmail}) neexistuje.`,
+      ownerUserNotFound: (details) => `žiadny používateľ so zadaným emailom (${details?.newOwnerEmail}) neexistuje.`,
+      invalidSubowner: () => `musíte zadať platný email podvlastníka.`,
+      subownerUserNotFound: (details) => `žiadny používateľ so zadaným emailom (${details?.subownerEmail}) neexistuje.`,
 
       turnstile: general.errors.turnstile,
     },

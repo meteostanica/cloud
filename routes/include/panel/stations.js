@@ -201,9 +201,29 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
       return eta.render(`${langName}/panel/stations/edit`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, meteostanica, error: "ownerUserNotFound", errorDetails: { newOwnerEmail } })
     }
 
+    const subowners = body?.subowners
+
+    if (subowners) {
+      const subownersSplit = subowners.split(',')
+
+      for (const subownerEmail of subownersSplit) {
+        if (!normalizeEmail(subownerEmail)) {
+          set.headers['content-type'] = 'text/html; charset=utf8'
+          return eta.render(`${langName}/panel/stations/edit`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, meteostanica, error: "invalidSubowner" })
+        }
+
+        const subowner = Auth.getUser(subownerEmail)
+
+        if (!subowner) {
+          set.headers['content-type'] = 'text/html; charset=utf8'
+          return eta.render(`${langName}/panel/stations/edit`, { siteKey: process.env.TURNSTILE_SITE_KEY, lang, user, meteostanica, error: "subownerUserNotFound", errorDetails: { subownerEmail } })
+        }
+      }
+    }
+
     const newDescription = body?.description
 
-    Meteostanice.edit(meteostanica.id, newName, newDescription, newOwnerEmail)
+    Meteostanice.edit(meteostanica.id, newName, newDescription, newOwnerEmail, subowners)
 
     return redirect(`/${langName === "sk" ? `` : `${langName}/`}panel/stations/${meteostanica.id}`)
   })

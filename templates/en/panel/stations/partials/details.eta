@@ -58,6 +58,8 @@
 
 <p><strong>created:</strong> <%= it.meteostanica.timestamp %></p>
 
+<p><strong>owner:</strong> <%= it.meteostanica.owner %></p>
+
 <div class="container-row">
     <p><strong>websocket key:</strong> <%= it.meteostanica.websocketKey %></p>
     <a role="button" href="/en/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>

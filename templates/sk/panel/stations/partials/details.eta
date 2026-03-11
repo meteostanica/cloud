@@ -58,6 +58,8 @@
 
 <p><strong>vytvorená:</strong> <%= it.meteostanica.timestamp %></p>
 
+<p><strong>vlastník:</strong> <%= it.meteostanica.owner %></p>
+
 <div class="container-row">
     <p><strong>websocket kľúč:</strong> <%= it.meteostanica.websocketKey %></p>
     <a role="button" href="/panel/stations/<%= it.meteostanica.id %>/resetWebsocketKey"><%~ resetIcon %> reset</a>

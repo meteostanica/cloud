@@ -33,7 +33,8 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             outdoorTemp,
             outdoorPressure,
             outdoorHumidity,
-            outdoorAltitude
+            outdoorAltitude,
+            timestamp
         } = message
 
         if (
@@ -60,7 +61,8 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             outdoorTemp,
             outdoorPressure,
             outdoorHumidity,
-            outdoorAltitude
+            outdoorAltitude,
+            timestamp
         )
 
         return lang.websocket.dataSaved({ meteostanica })

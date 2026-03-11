@@ -28,12 +28,14 @@
             <tr>
                 <th>name</th>
                 <th>description</th>
+                <th>owner</th>
                 <th>created</th>
             </tr>
             <% for (const meteostanica of it.meteostanice) { %>
                 <tr>
                     <td><a href="/en/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></td>
                     <td><%= meteostanica?.description ?? `` %></td>
+                    <td><%= meteostanica.owner %></td>
                     <td><%= meteostanica.timestamp %></td>
                 </tr>
             <% } %>

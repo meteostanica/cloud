@@ -10,6 +10,7 @@ meteostaniceDB.run(`create table if not exists list (
     name text not null,
     description text,
     websocketKey text not null,
+    subowners text,
     timestamp datetime default current_timestamp
 );`)
 
@@ -65,8 +66,16 @@ export default class Meteostanice {
         const statement = meteostaniceDB.prepare(`
             SELECT *
             FROM list 
-            WHERE owner = $owner AND id = $id;
-        `)
+            WHERE id = $id 
+            AND (
+                owner = $owner 
+                OR EXISTS (
+                    SELECT 1 
+                    FROM json_each(list.subowners) 
+                    WHERE value = $owner
+                )
+            );
+        `);
 
         const result = statement.get({
             $owner: owner,
@@ -93,8 +102,13 @@ export default class Meteostanice {
     static getOwned(owner) {
         const statement = meteostaniceDB.prepare(`
             SELECT *
-            FROM list 
-            WHERE owner = $owner
+            FROM list
+            WHERE owner = $owner 
+            OR EXISTS (
+                SELECT * 
+                FROM json_each(list.subowners) 
+                WHERE value = $owner
+            )
             ORDER BY timestamp DESC;
         `)
 
@@ -105,22 +119,43 @@ export default class Meteostanice {
         return result
     }
 
-    static edit(id, newName, newDescription, newOwner) {
+    static edit(id, newName, newDescription, newOwner, subowners) {
+        let newSubowners = subowners ? subowners.split(',').map(s => s.trim()).filter(Boolean) : [];
+
         meteostaniceDB.prepare(`
             update list
             set name = ?,
             description = ?,
-            owner = ?
+            owner = ?,
+            subowners = json(?)
             where id = ?;
-        `).run(newName, newDescription, newOwner, id)
+        `).run(newName, newDescription, newOwner, JSON.stringify(newSubowners), id)
     }
 
     static editOwnerOnOwned(owner, newOwner) {
         meteostaniceDB.prepare(`
-            update list
-            set owner = ?
-            where owner = ?;
-        `).run(newOwner, owner)
+            UPDATE list
+            SET 
+                -- Update the primary owner if it matches
+                owner = CASE WHEN owner = $owner THEN $newOwner ELSE owner END,
+                
+                -- Update the subowners array if it contains the owner
+                subowners = CASE 
+                    WHEN EXISTS (SELECT 1 FROM json_each(subowners) WHERE value = $owner)
+                    THEN (
+                        SELECT json_group_array(
+                            CASE WHEN value = $owner THEN $newOwner ELSE value END
+                        )
+                        FROM json_each(subowners)
+                    )
+                    ELSE subowners 
+                END
+            WHERE owner = $owner 
+            OR EXISTS (SELECT 1 FROM json_each(subowners) WHERE value = $owner);
+        `).run({
+            $owner: owner,
+            $newOwner: newOwner
+        });
     }
 
     static delete(id) {
@@ -157,13 +192,13 @@ export default class Meteostanice {
         }
     }
 
-    static postData(meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude) {
+    static postData(meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude, timestamp) {
         const id = nanoid()
 
         meteostaniceDB.prepare(`
-            INSERT INTO data (id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        `).run(id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude)
+            INSERT INTO data (id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude${timestamp ? `, timestamp` : ``}) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?${timestamp ? `, ?` : ``});
+        `).run(id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude, timestamp)
     }
 
     static getData(meteostanica) {
