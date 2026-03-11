@@ -29,7 +29,7 @@
             <label for="day">day</label>
             <select id="day" name="day">
                 <% for (const item of it?.dateMap?.days) { %>
-                    <option value="<%= item %>" <%= item === it?.dateMap?.days[it?.dateMap?.days.length - 1] ? `selected` : `` %> ><%= item %></option>
+                    <option value="<%= item %>" <%= item === it?.selected?.day ? `selected` : `` %> ><%= item %></option>
                 <% } %>
             </select>
             </div>
@@ -40,7 +40,7 @@
             <label for="month">month</label>
             <select id="month" name="month">
                 <% for (const item of it?.dateMap?.months) { %>
-                    <option value="<%= item %>" <%= item === it?.dateMap?.months[it?.dateMap?.months.length - 1] ? `selected` : `` %> > <%= it?.lang?.general.dateFormats.months?.[item]() %></option>
+                    <option value="<%= item %>" <%= item === it?.selected?.month ? `selected` : `` %> > <%= it?.lang?.general.dateFormats.months?.[item]() %></option>
                 <% } %>
             </select>
             </div>
@@ -50,7 +50,7 @@
             <label for="year">year</label>
             <select id="year" name="year">
                 <% for (const item of it?.dateMap?.years) { %>
-                    <option value="<%= item %>" <%= item === it?.dateMap?.years[it?.dateMap?.years.length - 1] ? `selected` : `` %> > <%= item %></option>
+                    <option value="<%= item %>" <%= item === it?.selected?.year ? `selected` : `` %> > <%= item %></option>
                 <% } %>
             </select>
         </div>
@@ -94,8 +94,12 @@
     if (e.target.id === "year") monthSelect.textContent = ''
 
     const years = Object.keys(dateMap)
-    const months = Object.keys(dateMap[years.find(i => i === yearSelect.value) ?? years[years.length - 1]])
-    const days = dateMap[years.find(i => i === yearSelect.value) ?? years[years.length - 1]][months.find(i => i === monthSelect?.value) ?? months[months.length - 1]]
+    const selectedYear = years.find(i => i === yearSelect.value) ?? years[years.length - 1]
+
+    const months = Object.keys(dateMap[selectedYear])
+    const selectedMonth = months.find(i => i === monthSelect.value) ?? months[months.length - 1]
+
+    const days = dateMap[selectedYear][selectedMonth]
 
     for (const day of days) {
         const option = document.createElement('option')

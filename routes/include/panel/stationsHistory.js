@@ -57,14 +57,15 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const dateMap = Meteostanice.getDateMap(station)
     
     const years = Object.keys(dateMap)
-    const months = Object.keys(dateMap[years[years.length - 1]])
-    const days = dateMap[years[years.length - 1]][months[months.length - 1]]
+    const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const lastYear = years[years.length - 1]
-    const lastMonth = months[months.length - 1]
-    const lastDay = days[days.length - 1]
+    const months = Object.keys(dateMap[selectedYear])
+    const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-    const data = Meteostanice.getDataPropertyDaily(station, property, `${year ?? lastYear}-${month ?? lastMonth}-${day ?? lastDay}`)
+    const days = dateMap[selectedYear][selectedMonth]
+    const selectedDay = days.find(i => i === day) ?? days[days.length - 1]
+
+    const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
 
     if (!data) {
         set.headers['content-type'] = 'text/html; charset=utf8'
@@ -72,7 +73,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, selected: { day: selectedDay, month: selectedMonth, year: selectedYear }, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
   })
  .get(`/:property/daily`, async ({ cookie, redirect, set, params: { station, property }, query: { day, month, year } }) => {
     const token = cookie.session.value
@@ -99,14 +100,15 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const dateMap = Meteostanice.getDateMap(station)
     
     const years = Object.keys(dateMap)
-    const months = Object.keys(dateMap[years[years.length - 1]])
-    const days = dateMap[years[years.length - 1]][months[months.length - 1]]
+    const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const lastYear = years[years.length - 1]
-    const lastMonth = months[months.length - 1]
-    const lastDay = days[days.length - 1]
+    const months = Object.keys(dateMap[selectedYear])
+    const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-    const data = Meteostanice.getDataPropertyDaily(station, property, `${year ?? lastYear}-${month ?? lastMonth}-${day ?? lastDay}`)
+    const days = dateMap[selectedYear][selectedMonth]
+    const selectedDay = days.find(i => i === day) ?? days[days.length - 1]
+
+    const data = Meteostanice.getDataPropertyDaily(station, property, `${selectedYear}-${selectedMonth}-${selectedDay}`)
 
     if (!data) {
         set.headers['content-type'] = 'text/html; charset=utf8'
@@ -114,7 +116,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, selected: { day: selectedDay, month: selectedMonth, year: selectedYear }, dateMap: { years, months, days, raw: dateMap }, type: `daily`, property, meteostanica, data })
   })
   .get(`/:property/monthly`, async ({ cookie, redirect, set, params: { station, property }, query: { month, year } }) => {
     const token = cookie.session.value
@@ -141,12 +143,12 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const dateMap = Meteostanice.getDateMap(station)
     
     const years = Object.keys(dateMap)
-    const months = Object.keys(dateMap[years[years.length - 1]])
+    const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const lastYear = years[years.length - 1]
-    const lastMonth = months[months.length - 1]
+    const months = Object.keys(dateMap[selectedYear])
+    const selectedMonth = months.find(i => i === month) ?? months[months.length - 1]
 
-    const data = Meteostanice.getDataPropertyMonthly(station, property, `${year ?? lastYear}-${month ?? lastMonth}`)
+    const data = Meteostanice.getDataPropertyMonthly(station, property, `${selectedYear}-${selectedMonth}`)
 
     if (!data) {
         set.headers['content-type'] = 'text/html; charset=utf8'
@@ -154,7 +156,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, months, raw: dateMap }, type: `monthly`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, selected: { month: selectedMonth, year: selectedYear }, dateMap: { years, months, raw: dateMap }, type: `monthly`, property, meteostanica, data })
   })
   .get(`/:property/yearly`, async ({ cookie, redirect, set, params: { station, property }, query: { year } }) => {
     const token = cookie.session.value
@@ -181,10 +183,9 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     const dateMap = Meteostanice.getDateMap(station)
     
     const years = Object.keys(dateMap)
+    const selectedYear = years.find(i => i === year) ?? years[years.length - 1]
 
-    const lastYear = years[years.length - 1]
-
-    const data = Meteostanice.getDataPropertyYearly(station, property, year ?? lastYear)
+    const data = Meteostanice.getDataPropertyYearly(station, property, selectedYear)
 
     if (!data) {
         set.headers['content-type'] = 'text/html; charset=utf8'
@@ -192,7 +193,7 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     }
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { years, raw: dateMap }, type: `yearly`, property, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/history/property`, { lang, user, selected: { year: selectedYear }, dateMap: { years, raw: dateMap }, type: `yearly`, property, meteostanica, data })
   })
   .get(`/:property/allTime`, async ({ cookie, redirect, set, params: { station, property } }) => {
     const token = cookie.session.value
@@ -228,15 +229,3 @@ export default (langName, lang) => new Elysia({ prefix: "/:station/history" })
     set.headers['content-type'] = 'text/html; charset=utf8'
     return eta.render(`${langName}/panel/stations/history/property`, { lang, user, dateMap: { raw: dateMap }, type: `allTime`, property, meteostanica, data })
   })
-//   .get(`/:property/allTime`, ({ params: { property }, set }) => {
-//     const data = Meteostanica.getDataPropertyAllTime(property)
-//     const dateMap = Meteostanica.getDateMap()
-
-//     if (!data) {
-//         set.headers['content-type'] = 'text/html; charset=utf8'
-//         return eta.render(`${langName}/history/notFound`, { property })
-//     }
-
-//     set.headers['content-type'] = 'text/html; charset=utf8'
-//     return eta.render(`${langName}/history/property`, { lang, dateMap, type: `allTime`, property, data })
-//   })
