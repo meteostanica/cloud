@@ -49,6 +49,105 @@ const general = {
       keyUsedOrExpired: () => `Turnstile key already used or expired. please try again.`
     },
   },
+
+  adjectives: () => [
+    "adorable", "adventurous", "agreeable", "alert", "alive", "amused", 
+    "angry", "annoyed", "annoying", "anxious", "arrogant", "ashamed", 
+    "attractive", "average", "awful", "bad", "beautiful", "better", 
+    "bewildered", "black", "blue", "blue-eyed", "blushing", "bored", 
+    "brainy", "brave", "breakable", "bright", "busy", "calm", "careful", 
+    "cautious", "charming", "cheerful", "clean", "clear", "clever", 
+    "cloudy", "clumsy", "colorful", "combative", "comfortable", "concerned", 
+    "condemned", "confused", "cooperative", "courageous", "crazy", "creepy", 
+    "crowded", "curious", "cute", "dangerous", "dark", "dazzling", 
+    "deadpan", "delightful", "difficult", "distinct", "disturbed", "dizzy", 
+    "doubtful", "drab", "dull", "eager", "easy", "elated", "elegant", 
+    "embarrassed", "enchanting", "encouraging", "energetic", "enthusiastic", 
+    "envious", "excited", "expensive", "exuberant", "fair", "faithful", 
+    "famous", "fancy", "fantastic", "fast", "filthy", "fine", "foolish", 
+    "fragile", "frail", "frantic", "friendly", "frightened", "funny", 
+    "gentle", "gifted", "glamorous", "gleaming", "glorious", "good", 
+    "gorgeous", "graceful", "grieved", "grotesque", "grumpy", "handsome", 
+    "happy", "healthy", "helpful", "helpless", "hilarious", "homely", 
+    "horrible", "hungry", "hurt", "ill", "important", "impossible", 
+    "inexpensive", "innocent", "inquisitive", "intelligent", "interested", 
+    "itchy", "jealous", "jittery", "jolly", "joyous", "kind", "lazy", 
+    "light", "lively", "lonely", "long", "lovely", "lucky", "magnificent", 
+    "misty", "modern", "motionless", "muddy", "mushy", "mysterious", 
+    "nasty", "naughty", "nervous", "nice", "nutty", "obedient", "obnoxious", 
+    "odd", "open", "outrageous", "outstanding", "panicky", "perfect", 
+    "plain", "pleasant", "poised", "polite", "powerful", "precious", 
+    "prickly", "proud", "puzzled", "quaint", "real", "relieved", "repulsive", 
+    "rich", "scary", "selfish", "shiny", "shy", "silly", "sleepy", "smiling", 
+    "smoggy", "sore", "sparkling", "splendid", "spotless", "stormy", 
+    "strange", "stupid", "successful", "super", "talented", "tame", "tender", 
+    "tense", "terrible", "thankful", "thoughtful", "thoughtless", "tired", 
+    "tough", "troubled", "uninterested", "unsightly", "unusual", "upset", 
+    "uptight", "vast", "victorious", "vivacious", "wandering", "weary", 
+    "wicked", "wide-eyed", "wild", "witty", "worried", "worrisome", "wrong", 
+    "zany", "zealous"
+  ],
+
+  nouns: () => [
+    "actor", "airplane", "airport", "alarm", "alligator", "alphabet", 
+    "ambulance", "animal", "answer", "ant", "apple", "appliance", 
+    "apron", "arch", "arm", "army", "arrow", "ashtray", "asteroid", 
+    "author", "avocado", "baby", "back", "balloon", "banana", "band", 
+    "bank", "barber", "base", "basket", "basketball", "bat", "bath", 
+    "beach", "bear", "beard", "bed", "bee", "beef", "beetle", "bell", 
+    "belt", "bench", "beret", "berry", "bicycle", "bike", "bird", 
+    "birthday", "bite", "block", "boat", "book", "boot", "border", 
+    "bottle", "boundary", "box", "boy", "brake", "bread", "bridge", 
+    "bronco", "brother", "brush", "bubble", "bucket", "building", 
+    "bulb", "bunny", "bus", "butterfly", "button", "cabbage", "cactus", 
+    "cake", "calculator", "calendar", "camel", "camera", "camp", "candle", 
+    "canoe", "canvas", "cap", "caption", "car", "card", "carpenter", 
+    "carriage", "carrot", "cart", "castle", "cat", "cattle", "celery", 
+    "cello", "cement", "chain", "chair", "chalk", "channel", "cheese", 
+    "cherry", "chess", "chicken", "children", "chimpanzee", "chin", 
+    "church", "city", "clam", "clock", "cloth", "cloud", "clover", 
+    "club", "coach", "coal", "coast", "coat", "cobweb", "coil", "collar", 
+    "color", "comet", "compass", "computer", "conditioner", "cord", 
+    "cork", "corn", "couch", "country", "cow", "crab", "crack", "crate", 
+    "crayon", "cricket", "crocodile", "crow", "crown", "crust", "cup", 
+    "curtain", "cushion", "cylinder", "dog", "donkey", "door", "dragon", 
+    "drain", "drawer", "dress", "drop", "duck", "dust", "eagle", "ear", 
+    "earth", "egg", "eggplant", "elbow", "elephant", "engine", "eye", 
+    "face", "factory", "fairy", "family", "fan", "farm", "feather", 
+    "feast", "fence", "field", "flag", "flower", "flute", "fly", "fog", 
+    "forest", "fork", "fountain", "frog", "fruit", "furniture", "garage", 
+    "garden", "gate", "gemstone", "ghost", "giraffe", "glass", "glove", 
+    "goat", "gold", "goose", "gorilla", "grape", "grass", "guitar", 
+    "hair", "hall", "hat", "helicopter", "helmet", "honey", "horn", 
+    "horse", "hospital", "house", "island", "jacket", "jar", "jellyfish", 
+    "kangaroo", "kettle", "key", "keyboard", "king", "kitchen", "kite", 
+    "kitten", "lamp", "leaf", "library", "lighthouse", "lion", "lizard", 
+    "lock", "lunch", "magnet", "map", "mask", "melon", "monkey", "moon", 
+    "mountain", "mouse", "mouth", "nail", "necklace", "needle", "nest", 
+    "nose", "notebook", "ocean", "orange", "owl", "paint", "pants", 
+    "paper", "parrot", "pencil", "piano", "pillow", "pizza", "planet", 
+    "plant", "pocket", "potato", "prison", "pumpkin", "rabbit", "rain", 
+    "rainbow", "ring", "river", "robot", "rocket", "root", "rope", 
+    "sail", "school", "scissors", "sea", "shoe", "sky", "snail", "snake", 
+    "snow", "soap", "sock", "spoon", "star", "sun", "table", "tiger", 
+    "tomato", "tooth", "train", "tree", "umbrella", "valley", "vase", 
+    "wagon", "wall", "whale", "wheel", "window", "wing", "wolf", "worm", 
+    "zebra", "zoo"
+  ],
+
+  generateName: () => {
+    const adjectives = general.adjectives()
+    const nouns = general.nouns()
+
+    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+
+    // Capitalize first letters and return
+    const cappedAdjective = randomAdjective.charAt(0).toUpperCase() + randomAdjective.slice(1);
+    const cappedNoun = randomNoun.charAt(0).toUpperCase() + randomNoun.slice(1);
+
+    return `${cappedAdjective} ${cappedNoun}`;
+  }
 }
 
 const icons = {

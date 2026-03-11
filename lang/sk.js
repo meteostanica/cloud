@@ -53,6 +53,117 @@ const general = {
       keyUsedOrExpired: () => `Turnstile kľúč už bol použitý alebo vypršal. prosím skúste to znova.`,
     },
   },
+
+  adjectives: () => [
+    "rozkošný", "dobrodružný", "prijateľný", "ostražitý", "živý", "pobavený", 
+    "nahnevaný", "otrávený", "otravný", "znepokojený", "arogantný", "zahanbený", 
+    "atraktívny", "priemerný", "strašný", "zlý", "krásny", "lepší", 
+    "zmätený", "čierny", "modrý", "modrooký", "červenajúci", "znudený", 
+    "rozumný", "odvážny", "rozbitný", "jasný", "zaneprázdnený", "pokojný", "opatrný", 
+    "obozretný", "pôvabný", "veselý", "čistý", "jasný", "šikovný", 
+    "oblačný", "nemotorný", "farebný", "bojovný", "pohodlný", "ustarostený", 
+    "odsúdený", "zmätený", "spolupracujúci", "odvážny", "bláznivý", "strašidelný", 
+    "preplnený", "zvedavý", "roztomilý", "nebezpečný", "tmavý", "oslnivý", 
+    "nehybný", "nádherný", "ťažký", "odlišný", "rozrušený", "rozosmiaty", 
+    "pochybovačný", "fádny", "nudný", "nedočkavý", "ľahký", "povznesený", "elegantný", 
+    "zahanbený", "očarujúci", "povzbudivý", "energetický", "nadšený", 
+    "závistlivý", "nadšený", "drahý", "bujný", "férový", "verný", 
+    "slávny", "ozdobný", "fantastický", "rýchly", "špinavý", "jemný", "pochabý", 
+    "krehký", "slabý", "zbesilý", "priateľský", "vystrašený", "vtipný", 
+    "jemný", "nadaný", "očarujúci", "žiariaci", "slávny", "dobrý", 
+    "nádherný", "pôvabný", "zarmútený", "bizarný", "mrzutý", "pohľadný", 
+    "šťastný", "zdravý", "užitočný", "bezmocný", "zábavný", "domácky", 
+    "hrozný", "hladný", "zranený", "chorý", "dôležitý", "nemožný", 
+    "lacný", "nevinný", "všímavý", "inteligentný", "zaujatý", 
+    "svrbiaci", "žiarlivý", "nervózny", "veselý", "radostný", "láskavý", "lenivý", 
+    "ľahký", "živý", "osamelý", "dlhý", "pôvabný", "šťastný", "veľkolepý", 
+    "hmlistý", "moderný", "nehybný", "blatistý", "kašovitý", "tajomný", 
+    "odporný", "neposlušný", "nervózny", "milý", "bláznivý", "poslušný", "odporný", 
+    "zvláštny", "otvorený", "poburujúci", "vynikajúci", "spanikárený", "dokonalý", 
+    "prostý", "príjemný", "vyrovnaný", "zdvorilý", "mocný", "vzácny", 
+    "pichľavý", "hrdý", "zmätený", "staromódny", "skutočný", "uľavený", "odpudivý", 
+    "bohatý", "strašidelný", "sebecký", "lesklý", "plachý", "hlúpy", "ospalý", "usmievavý", 
+    "zahmlený", "boľavý", "iskrivý", "veľkolepý", "bezchybný", "búrlivý", 
+    "divný", "hlúpy", "úspešný", "super", "talentovaný", "krotký", "nežný", 
+    "napätý", "hrozný", "vďačný", "premýšľavý", "bezohľadný", "unavený", 
+    "tvrdý", "trápiaci", "nezaujatý", "nevzhľadný", "nezvyčajný", "rozrušený", 
+    "napätý", "rozľahlý", "víťazný", "živý", "túlajúci", "unavený", 
+    "zlý", "udivený", "divoký", "vtipný", "ustarostený", "znepokojujúci", "nesprávny", 
+    "bláznivý", "horlivý"
+  ],
+
+  nouns: () => ({
+    "herec": "m", "lietadlo": "n", "letisko": "n", "alarm": "m", "aligátor": "m", "abeceda": "f",
+    "sanitka": "f", "zviera": "n", "odpoveď": "f", "mravec": "m", "jablko": "n", "spotrebič": "m",
+    "zástera": "f", "oblúk": "m", "rameno": "n", "armáda": "f", "šíp": "m", "popolník": "m", "asteroid": "m",
+    "autor": "m", "avokádo": "n", "dieťa": "n", "chrbát": "m", "balón": "m", "banán": "m", "skupina": "f",
+    "banka": "f", "holič": "m", "základňa": "f", "košík": "m", "basketbal": "m", "netopier": "m", "kúpeľ": "m",
+    "pláž": "f", "medveď": "m", "brada": "f", "posteľ": "f", "včela": "f", "hovädzie": "n", "chrobák": "m", "zvonec": "m",
+    "opasok": "m", "lavička": "f", "bareta": "f", "bobuľa": "f", "bicykel": "m", "bicykel": "m", "vták": "m",
+    "narodeniny": "m", "hryz": "m", "blok": "m", "čln": "m", "kniha": "f", "topánka": "f", "hranica": "f",
+    "fľaša": "f", "hranica": "f", "krabica": "f", "chlapec": "m", "brzda": "f", "chlieb": "m", "most": "m",
+    "divoký kôň": "m", "brat": "m", "kefa": "f", "bublina": "f", "vedro": "n", "budova": "f",
+    "žiarovka": "f", "zajačik": "m", "autobus": "m", "motýľ": "m", "gombík": "m", "kapusta": "f", "kaktus": "m",
+    "koláč": "m", "kalkulačka": "f", "kalendár": "m", "ťava": "f", "kamera": "f", "tábor": "m", "sviečka": "f",
+    "kanoe": "n", "plátno": "n", "čiapka": "f", "titulok": "m", "auto": "n", "karta": "f", "tesár": "m",
+    "kočiar": "m", "mrkva": "f", "vozík": "m", "hrad": "m", "mačka": "f", "dobytok": "m", "zeler": "m",
+    "violončelo": "n", "cement": "m", "reťaz": "f", "stolička": "f", "krieda": "f", "kanál": "m", "syr": "m",
+    "čerešňa": "f", "šach": "m", "kura": "n", "deti": "n", "šimpanz": "m", "brada": "f",
+    "kostol": "m", "mesto": "n", "mušľa": "f", "hodiny": "f", "látka": "f", "oblak": "m", "ďatelina": "f",
+    "klub": "m", "tréner": "m", "uhlie": "n", "pobrežie": "n", "kabát": "m", "pavučina": "f", "cievka": "f", "obojok": "m",
+    "farba": "f", "kométa": "f", "kompas": "m", "počítač": "m", "kondicionér": "m", "šnúra": "f",
+    "kork": "m", "kukurica": "f", "pohovka": "f", "krajina": "f", "krava": "f", "krab": "m", "trhlina": "f", "debna": "f",
+    "pastelka": "f", "cvrček": "m", "krokodíl": "m", "vrana": "f", "koruna": "f", "kôrka": "f", "šálka": "f",
+    "záves": "m", "vankúš": "m", "valec": "m", "pes": "m", "osol": "m", "dvere": "f", "drak": "m",
+    "odtok": "m", "zásuvka": "f", "šaty": "f", "kvapka": "f", "kačica": "f", "prach": "m", "orol": "m", "ucho": "n",
+    "zem": "f", "vajce": "n", "baklažán": "m", "lakeť": "m", "slon": "m", "motor": "m", "oko": "n",
+    "tvár": "f", "továreň": "f", "víla": "f", "rodina": "f", "ventilátor": "m", "farma": "f", "pierko": "n",
+    "hostina": "f", "plot": "m", "pole": "n", "vlajka": "f", "kvet": "m", "flauta": "f", "mucha": "f", "hmla": "f",
+    "les": "m", "vidlička": "f", "fontána": "f", "žaba": "f", "ovocie": "n", "nábytok": "m", "garáž": "f",
+    "záhrada": "f", "brána": "f", "drahokam": "m", "duch": "m", "žirafa": "f", "sklo": "n", "rukavica": "f",
+    "koza": "f", "zlato": "n", "hus": "f", "gorila": "f", "hrozno": "n", "tráva": "f", "gitara": "f",
+    "vlasy": "m", "hala": "f", "klobúk": "m", "vrtuľník": "m", "prilba": "f", "med": "m", "roh": "m",
+    "kôň": "m", "nemocnica": "f", "dom": "m", "ostrov": "m", "bunda": "f", "nádoba": "f", "medúza": "f",
+    "kengura": "f", "kanvica": "f", "kľúč": "m", "klávesnica": "f", "kráľ": "m", "kuchyňa": "f", "šarkan": "m",
+    "mačiatko": "n", "lampa": "f", "list": "m", "knižnica": "f", "maják": "m", "lev": "m", "jašterica": "f",
+    "zámok": "m", "obed": "m", "magnet": "m", "mapa": "f", "maska": "f", "melón": "m", "opica": "f", "mesiac": "m",
+    "vrch": "m", "myš": "f", "ústa": "n", "klinec": "m", "náhrdelník": "m", "ihla": "f", "hniezdo": "n",
+    "nos": "m", "zápisník": "m", "oceán": "m", "pomaranč": "m", "sova": "f", "farba": "f", "nohavice": "f",
+    "papier": "m", "papagáj": "m", "ceruzka": "f", "klavír": "m", "vankúš": "m", "pizza": "f", "planéta": "f",
+    "rastlina": "f", "vrecko": "n", "zemiak": "m", "väznica": "f", "tekvica": "f", "králik": "m", "dážď": "m",
+    "dúha": "f", "prsteň": "m", "rieka": "f", "robot": "m", "raketa": "f", "koreň": "m", "lano": "n",
+    "plachta": "f", "škola": "f", "nožnice": "f", "more": "n", "topánka": "f", "obloha": "f", "slimák": "m", "had": "m",
+    "sneh": "m", "mydlo": "n", "ponožka": "f", "lyžica": "f", "hviezda": "f", "slnko": "n", "stôl": "m", "tiger": "m",
+    "paradajka": "f", "zub": "m", "vlak": "m", "strom": "m", "dáždnik": "m", "údolie": "n", "váza": "f",
+    "vozeň": "m", "stena": "f", "veľryba": "f", "koleso": "n", "okno": "n", "krídlo": "n", "vlk": "m", "červ": "m",
+    "zebra": "f", "zoo": "f"
+  }),
+
+  generateName: () => {
+    const adjectives = general.adjectives()
+    const nouns = Object.keys(general.nouns())
+    const genders = general.nouns()
+
+    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    
+    const gender = genders[randomNoun];
+
+    let finalAdjective = randomAdjective;
+
+    // Handle Slovak grammar
+    if (gender === "f") {
+      finalAdjective = randomAdjective.replace(/[ýí]$/, "á");
+    } else if (gender === "n") {
+      finalAdjective = randomAdjective.replace(/[ýí]$/, "é");
+    }
+
+    // Capitalize first letters and return
+    const cappedAdjective = finalAdjective.charAt(0).toUpperCase() + finalAdjective.slice(1);
+    const cappedNoun = randomNoun.charAt(0).toUpperCase() + randomNoun.slice(1);
+
+    return `${cappedAdjective} ${cappedNoun}`;
+  }
 }
 
 const icons = {

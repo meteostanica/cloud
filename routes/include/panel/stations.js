@@ -74,7 +74,7 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     }
 
     let name = body?.name
-    if (!name) name = "test"
+    if (!name) name = lang.general.generateName()
 
     const description = body?.description
 
