@@ -42,7 +42,7 @@
 
 <% if (it.data?.[0]) { %>
     <div id="mainStats">
-        <% if (JSON.parse(it.meteostanica?.warnings).length) { %>
+        <% if (it.meteostanica?.warnings && JSON.parse(it.meteostanica?.warnings).length) { %>
             <div class="message warning">
                 <% for (const warning of JSON.parse(it.meteostanica?.warnings)) { %>
                     <p><%= it.lang.stations?.warnings?.[warning]() %></p>

@@ -42,11 +42,13 @@
 
 <% if (it.data?.[0]) { %>
     <div id="mainStats">
-        <% /* <div class="message error">
-            <p>High temperature was detcted!</p>
-            <p>High pressure was detcted!</p>
-            <p>High humidity was detcted!</p>
-        </div> */ %>
+        <% if (it.meteostanica?.warnings && JSON.parse(it.meteostanica?.warnings).length) { %>
+            <div class="message warning">
+                <% for (const warning of JSON.parse(it.meteostanica?.warnings)) { %>
+                    <p><%= it.lang.stations?.warnings?.[warning]() %></p>
+                <% } %>
+            </div>
+        <% } %>
 
         <p><em>last updated: <%= it.data?.[0]?.timestamp %></em></p>
 
