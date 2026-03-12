@@ -194,6 +194,38 @@ export default {
         ${process.env.APP_NAME}
       `,
     },
+
+    stations: {
+      warningAdded: {
+        subject: () => `new warnings!`,
+        text: (details) => `
+          hi,
+
+          new warnings have been activated on your station ${details.stationName}:
+
+          ${details.warnings.join('\n')}
+
+          you can monitor them using this link: ${details.stationLink}
+
+          ${process.env.APP_NAME} ${new Date().getFullYear()}
+        `,
+      },
+
+      warningRemoved: {
+        subject: () => `warnings removed`,
+        text: (details) => `
+          hi,
+
+          the following warnings have been removed from your station ${details.stationName}:
+
+          ${details.warnings.join('\n')}
+
+          you can monitor them using this link: ${details.stationLink}
+
+          ${process.env.APP_NAME} ${new Date().getFullYear()}
+        `,
+      }
+    }
   },
 
   auth: {
@@ -238,6 +270,24 @@ export default {
       subownerUserNotFound: (details) => `no user with the provided email (${details?.subownerEmail}) exists.`,
 
       turnstile: general.errors.turnstile,
+    },
+
+    warnings: {
+      highIndoorTemp: () => `High indoor temperature detected!`,
+      highIndoorPressure: () => `High indoor pressure detected!`,
+      highIndoorHumidity: () => `High indoor humidity detected!`,
+
+      lowIndoorTemp: () => `Low indoor temperature detected!`,
+      lowIndoorPressure: () => `Low indoor pressure detected!`,
+      lowIndoorHumidity: () => `Low indoor humidity detected!`,
+
+      highOutdoorTemp: () => `High outdoor temperature detected!`,
+      highOutdoorPressure: () => `High outdoor pressure detected!`,
+      highOutdoorHumidity: () => `High outdoor humidity detected!`,
+
+      lowOutdoorTemp: () => `Low outdoor temperature detected!`,
+      lowOutdoorPressure: () => `Low outdoor pressure detected!`,
+      lowOutdoorHumidity: () => `Low outdoor humidity detected!`,
     },
 
     history: {

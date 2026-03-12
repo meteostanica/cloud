@@ -212,6 +212,38 @@ export default {
         ${process.env.APP_NAME}
       `,
     },
+
+    stations: {
+      warningAdded: {
+        subject: () => `nové varovania!`,
+        text: (details) => `
+          dobrý deň,
+
+          na vašej stanici ${details.stationName} boli aktivované nasledujúce varovania:
+
+          ${details.warnings.join('\n')}
+
+          môžete ich sledovať na nasledujúcom linku: ${details.stationLink}
+
+          ${process.env.APP_NAME} ${new Date().getFullYear()}
+        `,
+      },
+
+      warningRemoved: {
+        subject: () => `varovania zrušené`,
+        text: (details) => `
+          dobrý deň,
+
+          na vašej stanici ${details.stationName} boli deaktivované nasledujúce varovania:
+
+          ${details.warnings.join('\n')}
+
+          môžete ich sledovať na nasledujúcom linku: ${details.stationLink}
+
+          ${process.env.APP_NAME} ${new Date().getFullYear()}
+        `,
+      }
+    }
   },
 
   auth: {
@@ -256,6 +288,24 @@ export default {
       subownerUserNotFound: (details) => `žiadny používateľ so zadaným emailom (${details?.subownerEmail}) neexistuje.`,
 
       turnstile: general.errors.turnstile,
+    },
+
+    warnings: {
+      highIndoorTemp: () => `Zistená vysoká vnútorná teplota!`,
+      highIndoorPressure: () => `Zistený vysoký vnútorný tlak!`,
+      highIndoorHumidity: () => `Zistená vysoká vnútorná vlhkosť!`,
+
+      lowIndoorTemp: () => `Zistená nízka vnútorná teplota!`,
+      lowIndoorPressure: () => `Zistená nízky vnútorný tlak!`,
+      lowIndoorHumidity: () => `Zistená nízka vnútorná vlhkosť!`,
+
+      highOutdoorTemp: () => `Zistená vysoká vonkajšia teplota!`,
+      highOutdoorPressure: () => `Zistená vysoký vonkajší tlak!`,
+      highOutdoorHumidity: () => `Zistená vysoká vonkajšia vlhkosť!`,
+
+      lowOutdoorTemp: () => `Zistená nízka vonkajšia teplota!`,
+      lowOutdoorPressure: () => `Zistená nízky vonkajší tlak!`,
+      lowOutdoorHumidity: () => `Zistená nízka vonkajšia vlhkosť!`,
     },
 
     history: {

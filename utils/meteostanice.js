@@ -11,6 +11,7 @@ meteostaniceDB.run(`create table if not exists list (
     description text,
     websocketKey text not null,
     subowners text,
+    warnings text,
     timestamp datetime default current_timestamp
 );`)
 
@@ -22,13 +23,11 @@ meteostaniceDB.run(`create table if not exists data (
     indoorTemp text not null,
     indoorPressure text not null,
     indoorHumidity text not null,
-    indoorAltitude text not null,
 
     outdoorConnected integer not null,
     outdoorTemp text not null,
     outdoorPressure text not null,
-    outdoorHumidity text not null,
-    outdoorAltitude text not null
+    outdoorHumidity text not null
 );`)
 
 meteostaniceDB.run(`create table if not exists public (
@@ -42,14 +41,24 @@ meteostaniceDB.run(`create table if not exists public (
     showIndoorTemp integer default 1,
     showIndoorPressure integer default 1,
     showIndoorHumidity integer default 1,
-    showIndoorAltitude integer default 1,
 
     showOutdoorConnected integer default 1,
     showOutdoorTemp integer default 1,
     showOutdoorPressure integer default 1,
-    showOutdoorHumidity integer default 1,
-    showOutdoorAltitude integer default 1
+    showOutdoorHumidity integer default 1
 );`)
+
+import nodemailer from "nodemailer"
+
+const transporter = nodemailer.createTransport({
+  host: process.env.WARNING_EMAIL_SMTP_HOSTNAME,
+  port: process.env.WARNING_EMAIL_SMTP_PORT,
+  secure: true, // Use true for port 465, false for port 587
+  auth: {
+    user: process.env.WARNING_EMAIL_SMTP_USERNAME,
+    pass: process.env.WARNING_EMAIL_SMTP_PASSWORD,
+  },
+});
 
 export default class Meteostanice {
     static add(owner, name, description) {
@@ -79,6 +88,20 @@ export default class Meteostanice {
 
         const result = statement.get({
             $owner: owner,
+            $id: id
+        });
+
+        return result
+    }
+
+    static getById(id) {
+        const statement = meteostaniceDB.prepare(`
+            SELECT *
+            FROM list 
+            WHERE id = $id
+        `);
+
+        const result = statement.get({
             $id: id
         });
 
@@ -192,13 +215,27 @@ export default class Meteostanice {
         }
     }
 
-    static postData(meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude, timestamp) {
-        const id = nanoid()
+    static postData(meteostanica, indoorTemp, indoorPressure, indoorHumidity, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, timestamp) {
+        const id = nanoid();
 
-        meteostaniceDB.prepare(`
-            INSERT INTO data (id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude${timestamp ? `, timestamp` : ``}) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?${timestamp ? `, ?` : ``});
-        `).run(id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, indoorAltitude, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity, outdoorAltitude, timestamp)
+        // 1. Define base columns and values
+        let columns = ['id', 'meteostanica', 'indoorTemp', 'indoorPressure', 'indoorHumidity', 'outdoorConnected', 'outdoorTemp', 'outdoorPressure', 'outdoorHumidity'];
+        let placeholders = ['?', '?', '?', '?', '?', '?', '?', '?', '?'];
+        let args = [id, meteostanica, indoorTemp, indoorPressure, indoorHumidity, outdoorConnected, outdoorTemp, outdoorPressure, outdoorHumidity];
+
+        // 2. Conditionally add timestamp
+        if (timestamp) {
+            columns.push('timestamp');
+            placeholders.push('?');
+            args.push(timestamp);
+        }
+
+        const statement = meteostaniceDB.prepare(`
+            INSERT INTO data (${columns.join(', ')}) 
+            VALUES (${placeholders.join(', ')})
+        `);
+        
+        statement.run(...args);
     }
 
     static getData(meteostanica) {
@@ -247,7 +284,7 @@ export default class Meteostanice {
             GROUP BY timeMark
             ORDER BY timeMark;
         `)
-        
+
         const result = statement.all(meteostanica, date);
 
         return result
@@ -265,7 +302,7 @@ export default class Meteostanice {
             GROUP BY timeMark
             ORDER BY timeMark;
         `)
-        
+
         const result = statement.all(meteostanica, yearMonth);
 
         return result
@@ -283,7 +320,7 @@ export default class Meteostanice {
             GROUP BY timeMark
             ORDER BY timeMark;
         `)
-        
+
         const result = statement.all(meteostanica, year);
 
         return result
@@ -301,7 +338,7 @@ export default class Meteostanice {
             GROUP BY timeMark
             ORDER BY timeMark;
         `)
-        
+
         const result = statement.all(meteostanica);
 
         return result
@@ -331,5 +368,61 @@ export default class Meteostanice {
             set websocketKey = ?
             where id = ?;
         `).run(websocketKey, id)
+    }
+
+    static getEmails(id) {
+        const statement = meteostaniceDB.prepare(`
+            WITH all_emails AS (
+                -- Get the primary owner
+                SELECT owner AS email
+                FROM list
+                WHERE id = $id
+
+                UNION
+
+                -- Get all subowners from the JSON array
+                SELECT json_each.value AS email
+                FROM list, json_each(list.subowners)
+                WHERE list.id = $id
+            )
+            SELECT email FROM all_emails WHERE email IS NOT NULL;
+        `);
+
+        // .all() returns an array of objects: [{email: '...'}, {email: '...'}]
+        const rows = statement.all({ $id: id });
+
+        // Map it to a simple array of strings: ['owner@email.com', 'subowner@email.com']
+        return rows.map(row => row.email);
+    }
+
+    static getStationDataLast5Minutes(id) {
+        const rows = meteostaniceDB.prepare(`
+            SELECT * FROM data 
+            WHERE meteostanica = ? 
+            AND timestamp >= datetime('now', '-6 minutes')
+            ORDER BY timestamp DESC
+            LIMIT 5;
+        `).all(id);
+
+        // Only return the data if we have a full 5-minute window
+        return rows.length >= 5 ? rows : null;
+    }
+
+    static editWarnings(id, warnings) {
+        meteostaniceDB.prepare(`
+            UPDATE list 
+            SET warnings = json(?) 
+            WHERE id = ?;
+        `).run(JSON.stringify(warnings), id)
+    }
+
+    static async sendWarnings(email, subject, text, html) {
+        return await transporter.sendMail({
+            from: process.env.WARNING_EMAIL_SMTP_FROM,
+            to: email,
+            subject,
+            text, // Plain-text version of the message
+            html, // HTML version of the message
+        });
     }
 }

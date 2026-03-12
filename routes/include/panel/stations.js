@@ -107,7 +107,7 @@ export default (langName, lang) => new Elysia({ prefix: "/stations" })
     const data = Meteostanice.getData(meteostanica.id)
 
     set.headers['content-type'] = 'text/html; charset=utf8'
-    return eta.render(`${langName}/panel/stations/station`, { user, meteostanica, data })
+    return eta.render(`${langName}/panel/stations/station`, { user, lang, meteostanica, data })
   })
   .get("/:station/edit",  async ({ cookie, redirect, set, params: { station } }) => {
     const token = cookie.session.value

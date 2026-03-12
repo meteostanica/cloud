@@ -1,5 +1,6 @@
 import { Elysia } from 'elysia'
 import Meteostanice from '../../utils/meteostanice'
+import warningCheck from '../../utils/warningCheck'
 
 export default (langName, lang) => new Elysia({ prefix: "/ws" })
   .ws("/sendData/:key", {
@@ -13,7 +14,7 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
         return lang.websocket.keepalive()
     },
 
-    message({ data: { params: { key } } }, message) {
+    async message({ data: { params: { key } } }, message) {
         if (message === lang.websocket.keepalive()) {
             return lang.websocket.keepalive()
         }
@@ -28,12 +29,10 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             indoorTemp,
             indoorPressure,
             indoorHumidity,
-            indoorAltitude,
             outdoorConnected,
             outdoorTemp,
             outdoorPressure,
             outdoorHumidity,
-            outdoorAltitude,
             timestamp
         } = message
 
@@ -41,12 +40,10 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             !indoorTemp?.length ||
             !indoorPressure?.length ||
             !indoorHumidity?.length ||
-            !indoorAltitude?.length ||
             !outdoorConnected?.toString()?.length ||
             !outdoorTemp?.length ||
             !outdoorPressure?.length ||
-            !outdoorHumidity?.length ||
-            !outdoorAltitude?.length
+            !outdoorHumidity?.length
         ) {
             return lang.websocket.errors.missingFields()
         }
@@ -56,14 +53,14 @@ export default (langName, lang) => new Elysia({ prefix: "/ws" })
             indoorTemp,
             indoorPressure,
             indoorHumidity,
-            indoorAltitude,
             outdoorConnected,
             outdoorTemp,
             outdoorPressure,
             outdoorHumidity,
-            outdoorAltitude,
             timestamp
         )
+
+        await warningCheck(langName, lang, meteostanica)
 
         return lang.websocket.dataSaved({ meteostanica })
     }
