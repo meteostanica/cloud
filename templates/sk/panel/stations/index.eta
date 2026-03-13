@@ -23,22 +23,24 @@
 </div>
 
 <% if (it.meteostanice?.length) { %>
-    <table>
-        <tr>
-            <th>meno</th>
-            <th>popis</th>
-            <th>vlastník</th>
-            <th>vytvorená</th>
-        </tr>
-        <% for (const meteostanica of it.meteostanice) { %>
+    <div class="table-wrapper">
+        <table>
             <tr>
-                <td><a href="/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></td>
-                <td><%= meteostanica?.description ?? `` %></td>
-                <td><%= meteostanica.owner %></td>
-                <td><%= meteostanica.timestamp %></td>
+                <th>meno</th>
+                <th>popis</th>
+                <th>vlastník</th>
+                <th>vytvorená</th>
             </tr>
-        <% } %>
-    </table>
+            <% for (const meteostanica of it.meteostanice) { %>
+                <tr>
+                    <td><a href="/panel/stations/<%= meteostanica.id %>"><%= meteostanica.name %></a></td>
+                    <td><%= meteostanica?.description ?? `` %></td>
+                    <td><%= meteostanica.owner %></td>
+                    <td><%= meteostanica.timestamp %></td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
 <% } else { %>
     <p>žiadne stanice. :(</p>
 <% } %>
