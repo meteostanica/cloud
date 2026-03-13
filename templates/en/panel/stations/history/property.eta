@@ -87,36 +87,45 @@
     const monthSelect = document.querySelector("#historyForm select#month")
     const yearSelect = document.querySelector("#historyForm select#year")
 
-    monthSelect.addEventListener('change', resetHistoryForm)
-    yearSelect.addEventListener('change', resetHistoryForm)
+    if (monthSelect) {
+      monthSelect.addEventListener('change', resetHistoryForm)
+    }
+  
+    if (yearSelect) {
+      yearSelect.addEventListener('change', resetHistoryForm)
+    }
 
     function resetHistoryForm(e) {
-        daySelect.textContent = ''
-        if (e.target.id === "year") monthSelect.textContent = ''
+      daySelect.textContent = ''
+      if (e.target.id === "year") monthSelect.textContent = ''
 
-        const years = Object.keys(dateMap)
-        const selectedYear = years.find(i => i === yearSelect.value) ?? years[years.length - 1]
+      const years = Object.keys(dateMap)
+      const selectedYear = years.find(i => i === yearSelect.value) ?? years[years.length - 1]
 
-        const months = Object.keys(dateMap[selectedYear])
-        const selectedMonth = months.find(i => i === monthSelect.value) ?? months[months.length - 1]
+      const months = Object.keys(dateMap[selectedYear])
+      const selectedMonth = months.find(i => i === monthSelect.value) ?? months[months.length - 1]
 
-        const days = dateMap[selectedYear][selectedMonth]
+      const days = dateMap[selectedYear][selectedMonth]
 
+      if (daySelect) {
         for (const day of days) {
-            const option = document.createElement('option')
-            option.textContent = day
-            option.value = day
-            daySelect.append(option)
+          const option = document.createElement('option')
+          option.textContent = day
+          option.value = day
+          daySelect.append(option)
         }
+      }
 
+      if (monthSelect) {
         if (e.target.id === "year") {
-            for (const [key, value] of Object.entries(months)) {
-                const option = document.createElement('option')
-                option.textContent = monthLang[key]()
-                option.value = key
-                monthSelect.append(option)
-            }
+          for (const [key, value] of Object.entries(months)) {
+              const option = document.createElement('option')
+              option.textContent = monthLang[key]()
+              option.value = key
+              monthSelect.append(option)
+          }
         }
+      }
     }
 
     const ctx = document.querySelector('#historyChart');
